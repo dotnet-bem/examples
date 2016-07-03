@@ -9,7 +9,8 @@ exports.deps = [
         "block": "card"
     },
     {
-        "block": "metrika"
+        "block": "card",
+        "elem": "logo"
     },
     {
         "block": "p-vcard"

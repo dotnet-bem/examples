@@ -417,69 +417,7 @@ else {
 
 })(typeof window !== 'undefined' ? window : global);
 
-/* begin: ../../libs/bem-vcard-enb/blocks/page/page.js */
-/*global Card*/
-(function() {
-    var card, screen, isLandscape;
-
-    card = {
-        width: 600,
-        height: 360
-    };
-
-    screen = window.screen;
-
-    onOrientationChange();
-
-    window.addEventListener('orientationchange', onOrientationChange);
-
-    function getAvailWidth() {
-        return screen[ isLandscape ? 'availHeight' : 'availWidth' ];
-    }
-
-    function getAvailHeight() {
-        return screen[ isLandscape ? 'availWidth' : 'availHeight' ];
-    }
-
-    function getMetaViewport() {
-        return document.querySelector('meta[name=\"viewport\"]');
-    }
-
-    function setInitialScale(scale) {
-        return getMetaViewport().setAttribute('content', 'width=device-width, initial-scale=' + scale);
-    }
-
-    function getOrientation() {
-        return Math.abs(window.orientation) === 90;
-    }
-
-    function computeAndSetScale() {
-        var width = getAvailWidth();
-        var height = getAvailHeight();
-
-        if (width > card.width && card.height < height) {
-            return;
-        }
-
-        if (width < height) {
-            setInitialScale(width / card.width);
-        } else {
-            setInitialScale(height / card.height);
-        }
-    }
-
-    function onOrientationChange() {
-        isLandscape = getOrientation();
-        computeAndSetScale();
-    }
-}());
-
-document.addEventListener('DOMContentLoaded', function() {
-    Card.init();
-});
-
-/* end: ../../libs/bem-vcard-enb/blocks/page/page.js */
-/* begin: ../../libs/bem-vcard-enb/blocks/card/card.js */
+/* begin: ../../desktop.blocks/card/card.js */
 var Card = (function() {
     var toArray = Array.prototype.slice;
 
@@ -626,36 +564,4 @@ var Card = (function() {
     }
 }());
 
-/* end: ../../libs/bem-vcard-enb/blocks/card/card.js */
-/* begin: ../../libs/bem-vcard-enb/blocks/metrika/metrika.js */
-var Metrika = {
-    init: function(id) {
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w['yaCounter' + id] = new Ya.Metrika({
-                        id: id,
-                        webvisor:true,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks")
-    }
-};
-
-/* end: ../../libs/bem-vcard-enb/blocks/metrika/metrika.js */
+/* end: ../../desktop.blocks/card/card.js */

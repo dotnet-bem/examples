@@ -1,22 +1,4 @@
-/* ../../libs/bem-vcard-enb/blocks/page/page.css:begin */
-html, body {
-    height: 100%;
-}
-
-.page {
-    font: 12px/1.3 Arial, Helvetica, sans-serif;
-
-    position: relative;
-
-    width: 100%;
-    margin: 0;
-    padding: 0;
-
-    color: #000;
-    background: #EDEDED;
-}
-/* ../../libs/bem-vcard-enb/blocks/page/page.css:end */
-/* ../../libs/bem-vcard-enb/blocks/card/card.styl:begin */
+/* ../../desktop.blocks/card/card.styl:begin */
 .ua_js_yes .card {
   opacity: 0;
   -webkit-transition: opacity 0.4s ease-in-out;
@@ -151,4 +133,24 @@ html, body {
     margin-left: 30px;
   }
 }
-/* ../../libs/bem-vcard-enb/blocks/card/card.styl:end */
+/* ../../desktop.blocks/card/card.styl:end */
+/* ../../desktop.blocks/card/__logo/card__logo.styl:begin */
+.card__logo {
+  position: absolute;
+  left: 27px;
+  top: 128px;
+  width: 110px;
+  height: 44px;
+  background-image: url("../../desktop.blocks/card/__logo/card__logo_lang_ru.svg");
+  background-size: 110px 44px;
+  border: 0;
+}
+.card__logo span {
+  position: absolute;
+  left: -9999px;
+}
+.card__side_lang_en .card__logo {
+  background-image: url("../../desktop.blocks/card/__logo/card__logo_lang_en.svg");
+  top: 124px;
+}
+/* ../../desktop.blocks/card/__logo/card__logo.styl:end */
