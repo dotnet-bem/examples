@@ -16,8 +16,8 @@ var i18n = {
 
 block('card')(
     js()(function() {
-        var titles = {};
-        var ctx = this.ctx;
+        var titles = {},
+            ctx = this.ctx;
 
         ctx.order.forEach(function(lang) {
             titles[lang] = ctx.cards[lang].name;
@@ -32,7 +32,7 @@ block('card')(
     content()(function() {
         var ctx = this.ctx;
 
-        return ctx.order.map((lang, i) => {
+        return ctx.order.map(function(lang, i) {
             return {
                 elem: 'side',
                 mix: { elem: 'layout' },
@@ -60,7 +60,7 @@ block('card')(
             applyNext(),
             {
                 elem: 'switch',
-                content: this.ctx.order.map((lang, i) => {
+                content: this.ctx.order.map(function(lang, i) {
                     return {
                         elem: 'link',
                         attrs: {
@@ -237,7 +237,9 @@ block('card')(
             elem: 'gap'
         });
 
-        ['email', 'site'].filter((prop) => data[prop]).forEach(function(prop) {
+        ['email', 'site'].filter(function(prop) {
+            return !!data[prop];
+        }).forEach(function(prop) {
             content.push({
                 elem: prop,
                 data: data[prop]
@@ -248,7 +250,9 @@ block('card')(
             elem: 'gap'
         });
 
-        ['skype', 'github', 'twitter'].filter((prop) => data[prop]).forEach(function(prop) {
+        ['skype', 'github', 'twitter'].filter(function(prop) {
+            return !!data[prop];
+        }).forEach(function(prop) {
             content.push({
                 elem: prop,
                 content: data[prop]

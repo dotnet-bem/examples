@@ -3794,9 +3794,6 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
     var modVisible = 'card_visible';
     var modLinkDisabled = 'card__link_disabled_yes';
 
-    return {
-    };
-
     function addClass(elem, className) {
         if (!hasClass(elem, className)) {
             elem.className += ' ' + className;
@@ -3821,14 +3818,14 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
     }
 
     /**
-    * @exports
-    * @class card
-    * @bem
-    */
-    provide(BEMDOM.decl(this.name, /** @lends control.prototype */ {
+     * @exports
+     * @class card
+     * @bem
+     */
+    provide(BEMDOM.decl(this.name, /** @lends card.prototype */{
 
         onSetMod: {
-            js: {
+            'js': {
                 'inited': function () {
                     var toArray = Array.prototype.slice;
 
@@ -3838,7 +3835,7 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
                     var modVisible = 'card_visible';
                     var modLinkDisabled = 'card__link_disabled_yes';
 
-                    this.card = document.querySelector('.card');
+                    var card = this.card = document.querySelector('.card');
                     this.params = JSON.parse(this.card.dataset.bem).card;
 
                     this.sides = toArray.call(this.card.querySelectorAll('.card__side')).map(fillLang);
@@ -3853,8 +3850,8 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
                     this._onHashChange();
 
                     setTimeout(function () {
-                        addClass(Card.card, modAnimation);
-                        addClass(Card.card, modVisible);
+                        addClass(card, modAnimation);
+                        addClass(card, modVisible);
                     }, 0);
 
                     // drop phone links on desktop
@@ -3953,7 +3950,1989 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
 
 
 });
+
 /* end: ../../desktop.blocks/card/card.js */
+/* begin: ../../desktop.blocks/vcard-form/vcard-form.js */
+﻿modules.define('vcard-form', ['i-bem__dom', 'control'], function (provide, BEMDOM, Control) {
+
+    provide(BEMDOM.decl({ block: this.name, baseBlock: Control }, {
+
+        onSetMod: {
+            'js': {
+                'inited': function () {
+                    this.toggleInputs();
+                }
+            }
+        },
+
+        getLang: function() {
+            return (this._langRadioGroup || (this._langRadioGroup = this.findBlockInside('lang', 'radio-group'))).getVal();
+        },
+
+        toggleInputs: function () {
+            this
+                .findBlocksInside(this.elem(this.getLang() === 'ru' ? 'en' : 'ru'), 'input')
+                .map(function (input) {
+                    input.elem('control').prop('disabled', true);
+                });
+
+            this
+                .findBlocksInside(this.elem(this.getLang()), 'input')
+                .map(function (input) {
+                    input.elem('control').prop('disabled', false);
+                });
+
+            return this;
+        }
+
+    }, {
+
+        live: function () {
+            this.liveInitOnBlockInsideEvent('change', 'radio-group', function (e, data) {
+                this
+                    .toggleInputs()
+                    .setMod('tab', this.getLang());
+            }, this)
+        }
+
+    }));
+
+});
+
+/* end: ../../desktop.blocks/vcard-form/vcard-form.js */
+/* begin: ../../libs/bem-components/common.blocks/radio-group/radio-group.js */
+/**
+ * @module radio-group
+ */
+
+modules.define(
+    'radio-group',
+    ['i-bem__dom', 'jquery', 'dom', 'radio'],
+    function(provide, BEMDOM, $, dom) {
+
+var undef;
+/**
+ * @exports
+ * @class radio-group
+ * @bem
+ */
+provide(BEMDOM.decl(this.name, /** @lends radio-group.prototype */{
+    beforeSetMod : {
+        'focused' : {
+            'true' : function() {
+                return !this.hasMod('disabled');
+            }
+        }
+    },
+
+    onSetMod : {
+        'js' : {
+            'inited' : function() {
+                this._checkedRadio = this.findBlockInside({
+                    block : 'radio',
+                    modName : 'checked',
+                    modVal : true
+                });
+
+                this._inSetVal = false;
+                this._val = this._checkedRadio? this._checkedRadio.getVal() : undef;
+                this._radios = undef;
+            }
+        },
+
+        'disabled' : function(modName, modVal) {
+            this.getRadios().forEach(function(option) {
+                option.setMod(modName, modVal);
+            });
+        },
+
+        'focused' : {
+            'true' : function() {
+                if(dom.containsFocus(this.domElem)) return;
+
+                var radios = this.getRadios(),
+                    i = 0, radio;
+
+                while(radio = radios[i++]) {
+                    if(radio.setMod('focused').hasMod('focused')) { // we need to be sure that radio has got focus
+                        return;
+                    }
+                }
+            },
+
+            '' : function() {
+                var focusedRadio = this.findBlockInside({
+                        block : 'radio',
+                        modName : 'focused',
+                        modVal : true
+                    });
+
+                focusedRadio && focusedRadio.delMod('focused');
+            }
+        }
+    },
+
+    /**
+     * Returns control value
+     * @returns {String}
+     */
+    getVal : function() {
+        return this._val;
+    },
+
+    /**
+     * Sets control value
+     * @param {String} val value
+     * @param {Object} [data] additional data
+     * @returns {radio-group} this
+     */
+    setVal : function(val, data) {
+        var isValUndef = val === undef;
+
+        isValUndef || (val = String(val));
+
+        if(this._val !== val) {
+            if(isValUndef) {
+                this._val = undef;
+                this._checkedRadio.delMod('checked');
+                this.emit('change', data);
+            } else {
+                var radio = this._getRadioByVal(val);
+                if(radio) {
+                    this._inSetVal = true;
+
+                    this._val !== undef && this._getRadioByVal(this._val).delMod('checked');
+                    this._val = radio.getVal();
+                    radio.setMod('checked');
+
+                    this._inSetVal = false;
+                    this.emit('change', data);
+                }
+            }
+        }
+
+        return this;
+    },
+
+    /**
+     * Returns name of control
+     * @returns {String}
+     */
+    getName : function() {
+        return this.getRadios()[0].getName();
+    },
+
+    /**
+     * Returns options
+     * @returns {radio[]}
+     */
+    getRadios : function() {
+        return this._radios || (this._radios = this.findBlocksInside('radio'));
+    },
+
+    _getRadioByVal : function(val) {
+        var radios = this.getRadios(),
+            i = 0, option;
+
+        while(option = radios[i++]) {
+            if(option.getVal() === val) {
+                return option;
+            }
+        }
+    },
+
+    _onRadioCheck : function(e) {
+        var radioVal = (this._checkedRadio = e.target).getVal();
+        if(!this._inSetVal) {
+            if(this._val === radioVal) {
+                // on block init value set in constructor, we need remove old checked and emit "change" event
+                this.getRadios().forEach(function(radio) {
+                    radio.getVal() !== radioVal && radio.delMod('checked');
+                });
+                this.emit('change');
+            } else {
+                this.setVal(radioVal);
+            }
+        }
+    },
+
+    _onRadioFocus : function(e) {
+        this.setMod('focused', e.target.getMod('focused'));
+    }
+}, /** @lends radio-group */{
+    live : function() {
+        var ptp = this.prototype;
+        this
+            .liveInitOnBlockInsideEvent(
+                { modName : 'checked', modVal : true },
+                'radio',
+                ptp._onRadioCheck)
+            .liveInitOnBlockInsideEvent(
+                { modName : 'focused', modVal : '*' },
+                'radio',
+                ptp._onRadioFocus);
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/common.blocks/radio-group/radio-group.js */
+/* begin: ../../libs/bem-components/common.blocks/radio/radio.js */
+/**
+ * @module radio
+ */
+
+modules.define(
+    'radio',
+    ['i-bem__dom', 'control'],
+    function(provide, BEMDOM, Control) {
+
+/**
+ * @exports
+ * @class radio
+ * @augments control
+ * @bem
+ */
+provide(BEMDOM.decl({ block : this.name, baseBlock : Control }, /** @lends radio.prototype */{
+    onSetMod : {
+        'checked' : {
+            'true' : function() {
+                this.elem('control')
+                    .attr('checked', true)
+                    .prop('checked', true);
+            },
+            '' : function() {
+                this.elem('control')
+                    .removeAttr('checked')
+                    .prop('checked', false);
+            }
+        }
+    },
+
+    _onChange : function() {
+        this.hasMod('disabled') || this.setMod('checked');
+    }
+}, /** @lends radio */{
+    live : function() {
+        this.liveBindTo('change', this.prototype._onChange);
+        return this.__base.apply(this, arguments);
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/common.blocks/radio/radio.js */
+/* begin: ../../libs/bem-core/common.blocks/jquery/__event/_type/jquery__event_type_pointerclick.js */
+modules.define('jquery', ['next-tick'], function(provide, nextTick, $) {
+
+var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
+    event = $.event.special.pointerclick = {
+        setup : function() {
+            if(isIOS) {
+                $(this)
+                    .on('pointerdown', event.onPointerdown)
+                    .on('pointerup', event.onPointerup)
+                    .on('pointerleave pointercancel', event.onPointerleave);
+            } else {
+                $(this).on('click', event.handler);
+            }
+        },
+
+        teardown : function() {
+            if(isIOS) {
+                $(this)
+                    .off('pointerdown', event.onPointerdown)
+                    .off('pointerup', event.onPointerup)
+                    .off('pointerleave pointercancel', event.onPointerleave);
+            } else {
+                $(this).off('click', event.handler);
+            }
+        },
+
+        handler : function(e) {
+            if(!e.button) {
+                var type = e.type;
+                e.type = 'pointerclick';
+                $.event.dispatch.apply(this, arguments);
+                e.type = type;
+            }
+        },
+
+        onPointerdown : function(e) {
+            pointerdownEvent = e;
+        },
+
+        onPointerleave : function() {
+            pointerdownEvent = null;
+        },
+
+        onPointerup : function(e) {
+            if(!pointerdownEvent) return;
+
+            if(!pointerDownUpInProgress) {
+                nextTick(function() {
+                    pointerDownUpInProgress = false;
+                    pointerdownEvent = null;
+                });
+                pointerDownUpInProgress = true;
+            }
+
+            event.handler.apply(this, arguments);
+        }
+    },
+    pointerDownUpInProgress = false,
+    pointerdownEvent;
+
+provide($);
+
+});
+
+/* end: ../../libs/bem-core/common.blocks/jquery/__event/_type/jquery__event_type_pointerclick.js */
+/* begin: ../../libs/bem-core/common.blocks/jquery/__event/_type/jquery__event_type_pointernative.js */
+;(function(global, factory) {
+
+if(typeof modules === 'object' && modules.isDefined('jquery')) {
+    modules.define('jquery', function(provide, $) {
+        factory(this.global, $);
+        provide($);
+    });
+} else if(typeof jQuery === 'function') {
+    factory(global, jQuery);
+}
+
+}(this, function(window, $) {
+
+var jqEvent = $.event;
+
+// NOTE: Remove jQuery special fixes for pointerevents – we fix them ourself
+delete jqEvent.special.pointerenter;
+delete jqEvent.special.pointerleave;
+
+if(window.PointerEvent) {
+    // Have native PointerEvent support, nothing to do than
+    return;
+}
+
+/*!
+ * Most of source code is taken from PointerEvents Polyfill
+ * written by Polymer Team (https://github.com/Polymer/PointerEvents)
+ * and licensed under the BSD License.
+ */
+
+var doc = document,
+    HAS_BITMAP_TYPE = window.MSPointerEvent && typeof window.MSPointerEvent.MSPOINTER_TYPE_MOUSE === 'number',
+    undef;
+
+/*!
+ * Returns a snapshot of the event, with writable properties.
+ *
+ * @param {Event} event An event that contains properties to copy.
+ * @returns {Object} An object containing shallow copies of `inEvent`'s
+ *    properties.
+ */
+function cloneEvent(event) {
+    var eventCopy = $.extend(new $.Event(), event);
+    if(event.preventDefault) {
+        eventCopy.preventDefault = function() {
+            event.preventDefault();
+        };
+    }
+    return eventCopy;
+}
+
+/*!
+ * Dispatches the event to the target, taking event's bubbling into account.
+ */
+function dispatchEvent(event, target) {
+    return event.bubbles?
+        jqEvent.trigger(event, null, target) :
+        jqEvent.dispatch.call(target, event);
+}
+
+var MOUSE_PROPS = {
+        bubbles : false,
+        cancelable : false,
+        view : null,
+        detail : null,
+        screenX : 0,
+        screenY : 0,
+        clientX : 0,
+        clientY : 0,
+        ctrlKey : false,
+        altKey : false,
+        shiftKey : false,
+        metaKey : false,
+        button : 0,
+        relatedTarget : null,
+        pageX : 0,
+        pageY : 0
+    },
+    mouseProps = Object.keys(MOUSE_PROPS),
+    mousePropsLen = mouseProps.length,
+    mouseDefaults = mouseProps.map(function(prop) { return MOUSE_PROPS[prop] });
+
+/*!
+ * Pointer event constructor
+ *
+ * @param {String} type
+ * @param {Object} [params]
+ * @returns {Event}
+ * @constructor
+ */
+function PointerEvent(type, params) {
+    params || (params = {});
+
+    var e = $.Event(type);
+
+    // define inherited MouseEvent properties
+    for(var i = 0, p; i < mousePropsLen; i++) {
+        p = mouseProps[i];
+        e[p] = params[p] || mouseDefaults[i];
+    }
+
+    e.buttons = params.buttons || 0;
+
+    // add x/y properties aliased to clientX/Y
+    e.x = e.clientX;
+    e.y = e.clientY;
+
+    // Spec requires that pointers without pressure specified use 0.5 for down
+    // state and 0 for up state.
+    var pressure = 0;
+    if(params.pressure) {
+        pressure = params.pressure;
+    } else {
+        pressure = e.buttons? 0.5 : 0;
+    }
+
+    // define the properties of the PointerEvent interface
+    e.pointerId = params.pointerId || 0;
+    e.width = params.width || 0;
+    e.height = params.height || 0;
+    e.pressure = pressure;
+    e.tiltX = params.tiltX || 0;
+    e.tiltY = params.tiltY || 0;
+    e.pointerType = params.pointerType || '';
+    e.hwTimestamp = params.hwTimestamp || 0;
+    e.isPrimary = params.isPrimary || false;
+
+    // add some common jQuery properties
+    e.which = typeof params.which === 'undefined'? 1 : params.which;
+
+    return e;
+}
+
+function SparseArrayMap() {
+    this.array = [];
+    this.size = 0;
+}
+
+SparseArrayMap.prototype = {
+    set : function(k, v) {
+        if(v === undef) {
+            return this['delete'](k);
+        }
+        if(!this.has(k)) {
+            this.size++;
+        }
+        this.array[k] = v;
+    },
+
+    has : function(k) {
+        return this.array[k] !== undef;
+    },
+
+    'delete' : function(k) {
+        if(this.has(k)){
+            delete this.array[k];
+            this.size--;
+        }
+    },
+
+    get : function(k) {
+        return this.array[k];
+    },
+
+    clear : function() {
+        this.array.length = 0;
+        this.size = 0;
+    },
+
+    // return value, key, map
+    forEach : function(callback, ctx) {
+        return this.array.forEach(function(v, k) {
+            callback.call(ctx, v, k, this);
+        }, this);
+    }
+};
+
+// jscs:disable requireMultipleVarDecl
+var PointerMap = window.Map && window.Map.prototype.forEach? Map : SparseArrayMap,
+    pointerMap = new PointerMap();
+
+var dispatcher = {
+    eventMap : {},
+    eventSourceList : [],
+
+    /*!
+     * Add a new event source that will generate pointer events
+     */
+    registerSource : function(name, source) {
+        var newEvents = source.events;
+        if(newEvents) {
+            newEvents.forEach(function(e) {
+                source[e] && (this.eventMap[e] = function() { source[e].apply(source, arguments) });
+            }, this);
+            this.eventSourceList.push(source);
+        }
+    },
+
+    register : function(element) {
+        var len = this.eventSourceList.length;
+        for(var i = 0, es; (i < len) && (es = this.eventSourceList[i]); i++) {
+            // call eventsource register
+            es.register.call(es, element);
+        }
+    },
+
+    unregister : function(element) {
+        var l = this.eventSourceList.length;
+        for(var i = 0, es; (i < l) && (es = this.eventSourceList[i]); i++) {
+            // call eventsource register
+            es.unregister.call(es, element);
+        }
+    },
+
+    down : function(event) {
+        event.bubbles = true;
+        this.fireEvent('pointerdown', event);
+    },
+
+    move : function(event) {
+        event.bubbles = true;
+        this.fireEvent('pointermove', event);
+    },
+
+    up : function(event) {
+        event.bubbles = true;
+        this.fireEvent('pointerup', event);
+    },
+
+    enter : function(event) {
+        event.bubbles = false;
+        this.fireEvent('pointerenter', event);
+    },
+
+    leave : function(event) {
+        event.bubbles = false;
+        this.fireEvent('pointerleave', event);
+    },
+
+    over : function(event) {
+        event.bubbles = true;
+        this.fireEvent('pointerover', event);
+    },
+
+    out : function(event) {
+        event.bubbles = true;
+        this.fireEvent('pointerout', event);
+    },
+
+    cancel : function(event) {
+        event.bubbles = true;
+        this.fireEvent('pointercancel', event);
+    },
+
+    leaveOut : function(event) {
+        this.out(event);
+        this.enterLeave(event, this.leave);
+    },
+
+    enterOver : function(event) {
+        this.over(event);
+        this.enterLeave(event, this.enter);
+    },
+
+    enterLeave : function(event, fn) {
+        var target = event.target,
+            relatedTarget = event.relatedTarget;
+
+        if(!this.contains(target, relatedTarget)) {
+            while(target && target !== relatedTarget) {
+                event.target = target;
+                fn.call(this, event);
+
+                target = target.parentNode;
+            }
+        }
+    },
+
+    contains : function(target, relatedTarget) {
+        return target === relatedTarget || $.contains(target, relatedTarget);
+    },
+
+    // LISTENER LOGIC
+    eventHandler : function(e) {
+        // This is used to prevent multiple dispatch of pointerevents from
+        // platform events. This can happen when two elements in different scopes
+        // are set up to create pointer events, which is relevant to Shadow DOM.
+        if(e._handledByPE) {
+            return;
+        }
+
+        var type = e.type, fn;
+        (fn = this.eventMap && this.eventMap[type]) && fn(e);
+
+        e._handledByPE = true;
+    },
+
+    /*!
+     * Sets up event listeners
+     */
+    listen : function(target, events) {
+        events.forEach(function(e) {
+            this.addEvent(target, e);
+        }, this);
+    },
+
+    /*!
+     * Removes event listeners
+     */
+    unlisten : function(target, events) {
+        events.forEach(function(e) {
+            this.removeEvent(target, e);
+        }, this);
+    },
+
+    addEvent : function(target, eventName) {
+        $(target).on(eventName, boundHandler);
+    },
+
+    removeEvent : function(target, eventName) {
+        $(target).off(eventName, boundHandler);
+    },
+
+    getTarget : function(event) {
+        return event._target;
+    },
+
+    /*!
+     * Creates a new Event of type `type`, based on the information in `event`
+     */
+    makeEvent : function(type, event) {
+        var e = new PointerEvent(type, event);
+        if(event.preventDefault) {
+            e.preventDefault = event.preventDefault;
+        }
+
+        e._target = e._target || event.target;
+
+        return e;
+    },
+
+    /*!
+     * Dispatches the event to its target
+     */
+    dispatchEvent : function(event) {
+        var target = this.getTarget(event);
+        if(target) {
+            if(!event.target) {
+                event.target = target;
+            }
+
+            return dispatchEvent(event, target);
+        }
+    },
+
+    /*!
+     * Makes and dispatch an event in one call
+     */
+    fireEvent : function(type, event) {
+        var e = this.makeEvent(type, event);
+        return this.dispatchEvent(e);
+    }
+};
+
+function boundHandler() {
+    dispatcher.eventHandler.apply(dispatcher, arguments);
+}
+
+var CLICK_COUNT_TIMEOUT = 200,
+    // Radius around touchend that swallows mouse events
+    MOUSE_DEDUP_DIST = 25,
+    MOUSE_POINTER_ID = 1,
+    // This should be long enough to ignore compat mouse events made by touch
+    TOUCH_DEDUP_TIMEOUT = 2500,
+    // A distance for which touchmove should fire pointercancel event
+    TOUCHMOVE_HYSTERESIS = 20;
+
+// handler block for native mouse events
+var mouseEvents = {
+    POINTER_TYPE : 'mouse',
+    events : [
+        'mousedown',
+        'mousemove',
+        'mouseup',
+        'mouseover',
+        'mouseout'
+    ],
+
+    register : function(target) {
+        dispatcher.listen(target, this.events);
+    },
+
+    unregister : function(target) {
+        dispatcher.unlisten(target, this.events);
+    },
+
+    lastTouches : [],
+
+    // collide with the global mouse listener
+    isEventSimulatedFromTouch : function(event) {
+        var lts = this.lastTouches,
+            x = event.clientX,
+            y = event.clientY;
+
+        for(var i = 0, l = lts.length, t; i < l && (t = lts[i]); i++) {
+            // simulated mouse events will be swallowed near a primary touchend
+            var dx = Math.abs(x - t.x), dy = Math.abs(y - t.y);
+            if(dx <= MOUSE_DEDUP_DIST && dy <= MOUSE_DEDUP_DIST) {
+                return true;
+            }
+        }
+    },
+
+    prepareEvent : function(event) {
+        var e = cloneEvent(event);
+        e.pointerId = MOUSE_POINTER_ID;
+        e.isPrimary = true;
+        e.pointerType = this.POINTER_TYPE;
+        return e;
+    },
+
+    mousedown : function(event) {
+        if(!this.isEventSimulatedFromTouch(event)) {
+            if(pointerMap.has(MOUSE_POINTER_ID)) {
+                // http://crbug/149091
+                this.cancel(event);
+            }
+
+            pointerMap.set(MOUSE_POINTER_ID, event);
+
+            var e = this.prepareEvent(event);
+            dispatcher.down(e);
+        }
+    },
+
+    mousemove : function(event) {
+        if(!this.isEventSimulatedFromTouch(event)) {
+            var e = this.prepareEvent(event);
+            dispatcher.move(e);
+        }
+    },
+
+    mouseup : function(event) {
+        if(!this.isEventSimulatedFromTouch(event)) {
+            var p = pointerMap.get(MOUSE_POINTER_ID);
+            if(p && p.button === event.button) {
+                var e = this.prepareEvent(event);
+                dispatcher.up(e);
+                this.cleanupMouse();
+            }
+        }
+    },
+
+    mouseover : function(event) {
+        if(!this.isEventSimulatedFromTouch(event)) {
+            var e = this.prepareEvent(event);
+            dispatcher.enterOver(e);
+        }
+    },
+
+    mouseout : function(event) {
+        if(!this.isEventSimulatedFromTouch(event)) {
+            var e = this.prepareEvent(event);
+            dispatcher.leaveOut(e);
+        }
+    },
+
+    cancel : function(inEvent) {
+        var e = this.prepareEvent(inEvent);
+        dispatcher.cancel(e);
+        this.cleanupMouse();
+    },
+
+    cleanupMouse : function() {
+        pointerMap['delete'](MOUSE_POINTER_ID);
+    }
+};
+
+var touchEvents = {
+    events : [
+        'touchstart',
+        'touchmove',
+        'touchend',
+        'touchcancel'
+    ],
+
+    register : function(target) {
+        dispatcher.listen(target, this.events);
+    },
+
+    unregister : function(target) {
+        dispatcher.unlisten(target, this.events);
+    },
+
+    POINTER_TYPE : 'touch',
+    clickCount : 0,
+    resetId : null,
+    firstTouch : null,
+
+    isPrimaryTouch : function(touch) {
+        return this.firstTouch === touch.identifier;
+    },
+
+    /*!
+     * Sets primary touch if there no pointers, or the only pointer is the mouse
+     */
+    setPrimaryTouch : function(touch) {
+        if(pointerMap.size === 0 ||
+                (pointerMap.size === 1 && pointerMap.has(MOUSE_POINTER_ID))) {
+            this.firstTouch = touch.identifier;
+            this.firstXY = { X : touch.clientX, Y : touch.clientY };
+            this.scrolling = null;
+
+            this.cancelResetClickCount();
+        }
+    },
+
+    removePrimaryPointer : function(pointer) {
+        if(pointer.isPrimary) {
+            this.firstTouch = null;
+            // TODO(@narqo): It seems that, flushing `firstXY` flag explicitly in `touchmove` handler is enough.
+            // Original code from polymer doing `this.firstXY = null` on every `removePrimaryPointer` call, but looks
+            // like it is harmful in some of our usecases.
+            this.resetClickCount();
+        }
+    },
+
+    resetClickCount : function() {
+        var _this = this;
+        this.resetId = setTimeout(function() {
+            _this.clickCount = 0;
+            _this.resetId = null;
+        }, CLICK_COUNT_TIMEOUT);
+    },
+
+    cancelResetClickCount : function() {
+        this.resetId && clearTimeout(this.resetId);
+    },
+
+    typeToButtons : function(type) {
+        return type === 'touchstart' || type === 'touchmove'? 1 : 0;
+    },
+
+    findTarget : function(event) {
+        // Currently we don't interested in shadow dom handling
+        return doc.elementFromPoint(event.clientX, event.clientY);
+    },
+
+    touchToPointer : function(touch) {
+        var cte = this.currentTouchEvent,
+            e = cloneEvent(touch);
+
+        // Spec specifies that pointerId 1 is reserved for Mouse.
+        // Touch identifiers can start at 0.
+        // Add 2 to the touch identifier for compatibility.
+        e.pointerId = touch.identifier + 2;
+        e.target = this.findTarget(e);
+        e.bubbles = true;
+        e.cancelable = true;
+        e.detail = this.clickCount;
+        e.button = 0;
+        e.buttons = this.typeToButtons(cte.type);
+        e.width = touch.webkitRadiusX || touch.radiusX || 0;
+        e.height = touch.webkitRadiusY || touch.radiusY || 0;
+        e.pressure = touch.mozPressure || touch.webkitForce || touch.force || 0.5;
+        e.isPrimary = this.isPrimaryTouch(touch);
+        e.pointerType = this.POINTER_TYPE;
+
+        // forward touch preventDefaults
+        var _this = this;
+        e.preventDefault = function() {
+            _this.scrolling = false;
+            _this.firstXY = null;
+            cte.preventDefault();
+        };
+
+        return e;
+    },
+
+    processTouches : function(event, fn) {
+        var tl = event.originalEvent.changedTouches;
+        this.currentTouchEvent = event;
+        for(var i = 0, t; i < tl.length; i++) {
+            t = tl[i];
+            fn.call(this, this.touchToPointer(t));
+        }
+    },
+
+    shouldScroll : function(touchEvent) {
+        // return "true" for things to be much easier
+        return true;
+    },
+
+    findTouch : function(touches, pointerId) {
+        for(var i = 0, l = touches.length, t; i < l && (t = touches[i]); i++) {
+            if(t.identifier === pointerId) {
+                return true;
+            }
+        }
+    },
+
+    /*!
+     * In some instances, a touchstart can happen without a touchend.
+     * This leaves the pointermap in a broken state.
+     * Therefore, on every touchstart, we remove the touches
+     * that did not fire a touchend event.
+     *
+     * To keep state globally consistent, we fire a pointercancel
+     * for this "abandoned" touch
+     */
+    vacuumTouches : function(touchEvent) {
+        var touches = touchEvent.touches;
+        // `pointermap.size` should be less than length of touches here, as the touchstart has not
+        // been processed yet.
+        if(pointerMap.size >= touches.length) {
+            var d = [];
+
+            pointerMap.forEach(function(pointer, pointerId) {
+                // Never remove pointerId == 1, which is mouse.
+                // Touch identifiers are 2 smaller than their pointerId, which is the
+                // index in pointermap.
+                if(pointerId === MOUSE_POINTER_ID || this.findTouch(touches, pointerId - 2)) return;
+                d.push(pointer.outEvent);
+            }, this);
+
+            d.forEach(this.cancelOut, this);
+        }
+    },
+
+    /*!
+     * Prevents synth mouse events from creating pointer events
+     */
+    dedupSynthMouse : function(touchEvent) {
+        var lts = mouseEvents.lastTouches,
+            t = touchEvent.changedTouches[0];
+
+        // only the primary finger will synth mouse events
+        if(this.isPrimaryTouch(t)) {
+            // remember x/y of last touch
+            var lt = { x : t.clientX, y : t.clientY };
+            lts.push(lt);
+
+            setTimeout(function() {
+                var i = lts.indexOf(lt);
+                i > -1 && lts.splice(i, 1);
+            }, TOUCH_DEDUP_TIMEOUT);
+        }
+    },
+
+    touchstart : function(event) {
+        var touchEvent = event.originalEvent;
+
+        this.vacuumTouches(touchEvent);
+        this.setPrimaryTouch(touchEvent.changedTouches[0]);
+        this.dedupSynthMouse(touchEvent);
+
+        if(!this.scrolling) {
+            this.clickCount++;
+            this.processTouches(event, this.overDown);
+        }
+    },
+
+    touchmove : function(event) {
+        var touchEvent = event.originalEvent;
+        if(!this.scrolling) {
+            if(this.scrolling === null && this.shouldScroll(touchEvent)) {
+                this.scrolling = true;
+            } else {
+                event.preventDefault();
+                this.processTouches(event, this.moveOverOut);
+            }
+        } else if(this.firstXY) {
+            var firstXY = this.firstXY,
+                touch = touchEvent.changedTouches[0],
+                dx = touch.clientX - firstXY.X,
+                dy = touch.clientY - firstXY.Y,
+                dd = Math.sqrt(dx * dx + dy * dy);
+            if(dd >= TOUCHMOVE_HYSTERESIS) {
+                this.touchcancel(event);
+                this.scrolling = true;
+                this.firstXY = null;
+            }
+        }
+    },
+
+    touchend : function(event) {
+        var touchEvent = event.originalEvent;
+        this.dedupSynthMouse(touchEvent);
+        this.processTouches(event, this.upOut);
+    },
+
+    touchcancel : function(event) {
+        this.processTouches(event, this.cancelOut);
+    },
+
+    overDown : function(pEvent) {
+        var target = pEvent.target;
+        pointerMap.set(pEvent.pointerId, {
+            target : target,
+            outTarget : target,
+            outEvent : pEvent
+        });
+        dispatcher.over(pEvent);
+        dispatcher.enter(pEvent);
+        dispatcher.down(pEvent);
+    },
+
+    moveOverOut : function(pEvent) {
+        var pointer = pointerMap.get(pEvent.pointerId);
+
+        // a finger drifted off the screen, ignore it
+        if(!pointer) {
+            return;
+        }
+
+        dispatcher.move(pEvent);
+
+        var outEvent = pointer.outEvent,
+            outTarget = pointer.outTarget;
+
+        if(outEvent && outTarget !== pEvent.target) {
+            pEvent.relatedTarget = outTarget;
+            outEvent.relatedTarget = pEvent.target;
+            // recover from retargeting by shadow
+            outEvent.target = outTarget;
+
+            if(pEvent.target) {
+                dispatcher.leaveOut(outEvent);
+                dispatcher.enterOver(pEvent);
+            } else {
+                // clean up case when finger leaves the screen
+                pEvent.target = outTarget;
+                pEvent.relatedTarget = null;
+                this.cancelOut(pEvent);
+            }
+        }
+
+        pointer.outEvent = pEvent;
+        pointer.outTarget = pEvent.target;
+    },
+
+    upOut : function(pEvent) {
+        dispatcher.up(pEvent);
+        dispatcher.out(pEvent);
+        dispatcher.leave(pEvent);
+
+        this.cleanUpPointer(pEvent);
+    },
+
+    cancelOut : function(pEvent) {
+        dispatcher.cancel(pEvent);
+        dispatcher.out(pEvent);
+        dispatcher.leave(pEvent);
+        this.cleanUpPointer(pEvent);
+    },
+
+    cleanUpPointer : function(pEvent) {
+        pointerMap['delete'](pEvent.pointerId);
+        this.removePrimaryPointer(pEvent);
+    }
+};
+
+var msEvents = {
+    events : [
+        'MSPointerDown',
+        'MSPointerMove',
+        'MSPointerUp',
+        'MSPointerOut',
+        'MSPointerOver',
+        'MSPointerCancel'
+    ],
+
+    register : function(target) {
+        dispatcher.listen(target, this.events);
+    },
+
+    unregister : function(target) {
+        dispatcher.unlisten(target, this.events);
+    },
+
+    POINTER_TYPES : [
+        '',
+        'unavailable',
+        'touch',
+        'pen',
+        'mouse'
+    ],
+
+    prepareEvent : function(event) {
+        var e = cloneEvent(event);
+        HAS_BITMAP_TYPE && (e.pointerType = this.POINTER_TYPES[event.pointerType]);
+        return e;
+    },
+
+    MSPointerDown : function(event) {
+        pointerMap.set(event.pointerId, event);
+        var e = this.prepareEvent(event);
+        dispatcher.down(e);
+    },
+
+    MSPointerMove : function(event) {
+        var e = this.prepareEvent(event);
+        dispatcher.move(e);
+    },
+
+    MSPointerUp : function(event) {
+        var e = this.prepareEvent(event);
+        dispatcher.up(e);
+        this.cleanup(event.pointerId);
+    },
+
+    MSPointerOut : function(event) {
+        var e = this.prepareEvent(event);
+        dispatcher.leaveOut(e);
+    },
+
+    MSPointerOver : function(event) {
+        var e = this.prepareEvent(event);
+        dispatcher.enterOver(e);
+    },
+
+    MSPointerCancel : function(event) {
+        var e = this.prepareEvent(event);
+        dispatcher.cancel(e);
+        this.cleanup(event.pointerId);
+    },
+
+    cleanup : function(id) {
+        pointerMap['delete'](id);
+    }
+};
+
+var navigator = window.navigator;
+if(navigator.msPointerEnabled) {
+    dispatcher.registerSource('ms', msEvents);
+} else {
+    dispatcher.registerSource('mouse', mouseEvents);
+    if(typeof window.ontouchstart !== 'undefined') {
+        dispatcher.registerSource('touch', touchEvents);
+    }
+}
+
+dispatcher.register(doc);
+
+}));
+
+/* end: ../../libs/bem-core/common.blocks/jquery/__event/_type/jquery__event_type_pointernative.js */
+/* begin: ../../libs/bem-components/common.blocks/control/control.js */
+/**
+ * @module control
+ */
+
+modules.define(
+    'control',
+    ['i-bem__dom', 'dom', 'next-tick'],
+    function(provide, BEMDOM, dom, nextTick) {
+
+/**
+ * @exports
+ * @class control
+ * @abstract
+ * @bem
+ */
+provide(BEMDOM.decl(this.name, /** @lends control.prototype */{
+    beforeSetMod : {
+        'focused' : {
+            'true' : function() {
+                return !this.hasMod('disabled');
+            }
+        }
+    },
+
+    onSetMod : {
+        'js' : {
+            'inited' : function() {
+                this._focused = dom.containsFocus(this.elem('control'));
+                this._focused?
+                    // if control is already in focus, we need to force _onFocus
+                    this._onFocus() :
+                    // if block already has focused mod, we need to focus control
+                    this.hasMod('focused') && this._focus();
+
+                this._tabIndex = typeof this.params.tabIndex !== 'undefined'?
+                    this.params.tabIndex :
+                    this.elem('control').attr('tabindex');
+
+                if(this.hasMod('disabled') && this._tabIndex !== 'undefined')
+                    this.elem('control').removeAttr('tabindex');
+            }
+        },
+
+        'focused' : {
+            'true' : function() {
+                this._focused || this._focus();
+            },
+
+            '' : function() {
+                this._focused && this._blur();
+            }
+        },
+
+        'disabled' : {
+            'true' : function() {
+                this.elem('control').attr('disabled', true);
+                this.delMod('focused');
+                typeof this._tabIndex !== 'undefined' &&
+                    this.elem('control').removeAttr('tabindex');
+            },
+
+            '' : function() {
+                this.elem('control').removeAttr('disabled');
+                typeof this._tabIndex !== 'undefined' &&
+                    this.elem('control').attr('tabindex', this._tabIndex);
+            }
+        }
+    },
+
+    /**
+     * Returns name of control
+     * @returns {String}
+     */
+    getName : function() {
+        return this.elem('control').attr('name') || '';
+    },
+
+    /**
+     * Returns control value
+     * @returns {String}
+     */
+    getVal : function() {
+        return this.elem('control').val();
+    },
+
+    _onFocus : function() {
+        this._focused = true;
+        this.setMod('focused');
+    },
+
+    _onBlur : function() {
+        this._focused = false;
+        this.delMod('focused');
+    },
+
+    _focus : function() {
+        dom.isFocusable(this.elem('control'))?
+            this.elem('control').focus() :
+            this._onFocus(); // issues/1456
+    },
+
+    _blur : function() {
+        dom.isFocusable(this.elem('control'))?
+            this.elem('control').blur() :
+            this._onBlur();
+    }
+}, /** @lends control */{
+    live : function() {
+        this
+            .liveBindTo('control', 'focusin', function() {
+                this._focused || this._onFocus(); // to prevent double call of _onFocus in case of init by focus
+            })
+            .liveBindTo('control', 'focusout', this.prototype._onBlur);
+
+        var focused = dom.getFocused();
+        if(focused.hasClass(this.buildClass('control'))) {
+            var _this = this; // TODO: https://github.com/bem/bem-core/issues/425
+            nextTick(function() {
+                if(focused[0] === dom.getFocused()[0]) {
+                    var block = focused.closest(_this.buildSelector());
+                    block && block.bem(_this.getName());
+                }
+            });
+        }
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/common.blocks/control/control.js */
+/* begin: ../../libs/bem-components/desktop.blocks/control/control.js */
+/** @module control */
+
+modules.define(
+    'control',
+    function(provide, Control) {
+
+provide(Control.decl({
+    beforeSetMod : {
+        'hovered' : {
+            'true' : function() {
+                return !this.hasMod('disabled');
+            }
+        }
+    },
+
+    onSetMod : {
+        'disabled' : {
+            'true' : function() {
+                this.__base.apply(this, arguments);
+                this.delMod('hovered');
+            }
+        },
+
+        'hovered' : {
+            'true' : function() {
+                this.bindTo('mouseleave', this._onMouseLeave);
+            },
+
+            '' : function() {
+                this.unbindFrom('mouseleave', this._onMouseLeave);
+            }
+        }
+    },
+
+    _onMouseOver : function() {
+        this.setMod('hovered');
+    },
+
+    _onMouseLeave : function() {
+        this.delMod('hovered');
+    }
+}, {
+    live : function() {
+        return this
+            .liveBindTo('mouseover', this.prototype._onMouseOver)
+            .__base.apply(this, arguments);
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/desktop.blocks/control/control.js */
+/* begin: ../../libs/bem-components/common.blocks/button/button.js */
+/**
+ * @module button
+ */
+
+modules.define(
+    'button',
+    ['i-bem__dom', 'control', 'jquery', 'dom', 'functions', 'keyboard__codes'],
+    function(provide, BEMDOM, Control, $, dom, functions, keyCodes) {
+
+/**
+ * @exports
+ * @class button
+ * @augments control
+ * @bem
+ */
+provide(BEMDOM.decl({ block : this.name, baseBlock : Control }, /** @lends button.prototype */{
+    beforeSetMod : {
+        'pressed' : {
+            'true' : function() {
+                return !this.hasMod('disabled') || this.hasMod('togglable');
+            }
+        },
+
+        'focused' : {
+            '' : function() {
+                return !this._isPointerPressInProgress;
+            }
+        }
+    },
+
+    onSetMod : {
+        'js' : {
+            'inited' : function() {
+                this.__base.apply(this, arguments);
+                this._isPointerPressInProgress = false;
+                this._focusedByPointer = false;
+            }
+        },
+
+        'disabled' : {
+            'true' : function() {
+                this.__base.apply(this, arguments);
+                this.hasMod('togglable') || this.delMod('pressed');
+                this.domElem.attr('aria-disabled', true);
+            },
+            '' : function() {
+                this.__base.apply(this, arguments);
+                this.domElem.removeAttr('aria-disabled');
+            }
+        },
+
+        'focused' : {
+            'true' : function() {
+                this.__base.apply(this, arguments);
+                this._focusedByPointer || this.setMod('focused-hard');
+            },
+
+            '' : function() {
+                this.__base.apply(this, arguments);
+                this.delMod('focused-hard');
+            }
+        }
+    },
+
+    /**
+     * Returns text of the button
+     * @returns {String}
+     */
+    getText : function() {
+        return this.elem('text').text();
+    },
+
+    /**
+     * Sets text to the button
+     * @param {String} text
+     * @returns {button} this
+     */
+    setText : function(text) {
+        this.elem('text').text(text || '');
+        return this;
+    },
+
+    _onFocus : function() {
+        if(this._isPointerPressInProgress) return;
+
+        this.__base.apply(this, arguments);
+        this.bindTo('control', 'keydown', this._onKeyDown);
+    },
+
+    _onBlur : function() {
+        this
+            .unbindFrom('control', 'keydown', this._onKeyDown)
+            .__base.apply(this, arguments);
+    },
+
+    _onMouseDown : function(e) {
+        e.preventDefault(); // NOTE: prevents button from being blurred at least in FF and Safari
+        this.unbindFrom('mousedown', this._onMouseDown);
+    },
+
+    _onPointerPress : function() {
+        this.bindTo('mousedown', this._onMouseDown);
+        if(!this.hasMod('disabled')) {
+            this._isPointerPressInProgress = true;
+            this
+                .bindToDoc('pointerrelease', this._onPointerRelease)
+                .setMod('pressed');
+        }
+    },
+
+    _onPointerRelease : function(e) {
+        this._isPointerPressInProgress = false;
+        this.unbindFromDoc('pointerrelease', this._onPointerRelease);
+
+        if(e.originalEvent.type === 'pointerup' && dom.contains(this.elem('control'), $(e.target))) {
+            this._focusedByPointer = true;
+            this._focus();
+            this._focusedByPointer = false;
+            this
+                ._updateChecked()
+                .emit('click');
+        } else {
+            this._blur();
+        }
+
+        this.delMod('pressed');
+    },
+
+    _onKeyDown : function(e) {
+        if(this.hasMod('disabled')) return;
+
+        var keyCode = e.keyCode;
+        if(keyCode === keyCodes.SPACE || keyCode === keyCodes.ENTER) {
+            this
+                .unbindFrom('control', 'keydown', this._onKeyDown)
+                .bindTo('control', 'keyup', this._onKeyUp)
+                ._updateChecked()
+                .setMod('pressed');
+        }
+    },
+
+    _onKeyUp : function(e) {
+        this
+            .unbindFrom('control', 'keyup', this._onKeyUp)
+            .bindTo('control', 'keydown', this._onKeyDown)
+            .delMod('pressed');
+
+        e.keyCode === keyCodes.SPACE && this._doAction();
+
+        this.emit('click');
+    },
+
+    _updateChecked : function() {
+        this.hasMod('togglable') &&
+            (this.hasMod('togglable', 'check')?
+                this.toggleMod('checked') :
+                this.setMod('checked'));
+
+        return this;
+    },
+
+    _doAction : functions.noop
+}, /** @lends button */{
+    live : function() {
+        this.liveBindTo('control', 'pointerpress', this.prototype._onPointerPress);
+        return this.__base.apply(this, arguments);
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/common.blocks/button/button.js */
+/* begin: ../../libs/bem-core/common.blocks/keyboard/__codes/keyboard__codes.js */
+/**
+ * @module keyboard__codes
+ */
+modules.define('keyboard__codes', function(provide) {
+
+provide(/** @exports */{
+    /** @type {Number} */
+    BACKSPACE : 8,
+    /** @type {Number} */
+    TAB : 9,
+    /** @type {Number} */
+    ENTER : 13,
+    /** @type {Number} */
+    CAPS_LOCK : 20,
+    /** @type {Number} */
+    ESC : 27,
+    /** @type {Number} */
+    SPACE : 32,
+    /** @type {Number} */
+    PAGE_UP : 33,
+    /** @type {Number} */
+    PAGE_DOWN : 34,
+    /** @type {Number} */
+    END : 35,
+    /** @type {Number} */
+    HOME : 36,
+    /** @type {Number} */
+    LEFT : 37,
+    /** @type {Number} */
+    UP : 38,
+    /** @type {Number} */
+    RIGHT : 39,
+    /** @type {Number} */
+    DOWN : 40,
+    /** @type {Number} */
+    INSERT : 45,
+    /** @type {Number} */
+    DELETE : 46
+});
+
+});
+
+/* end: ../../libs/bem-core/common.blocks/keyboard/__codes/keyboard__codes.js */
+/* begin: ../../libs/bem-components/common.blocks/button/_togglable/button_togglable.js */
+/**
+ * @module button
+ */
+
+modules.define('button', function(provide, Button) {
+
+/**
+ * @exports
+ * @class button
+ * @bem
+ */
+provide(Button.decl({ modName : 'togglable' }, /** @lends button.prototype */{
+    onSetMod : {
+        'checked' : function(_, modVal) {
+            this.__base.apply(this, arguments);
+            this.domElem.attr('aria-pressed', !!modVal);
+        }
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/common.blocks/button/_togglable/button_togglable.js */
+/* begin: ../../libs/bem-components/common.blocks/input/input.js */
+/**
+ * @module input
+ */
+
+modules.define('input', ['i-bem__dom', 'control'], function(provide, BEMDOM, Control) {
+
+/**
+ * @exports
+ * @class input
+ * @augments control
+ * @bem
+ */
+provide(BEMDOM.decl({ block : this.name, baseBlock : Control }, /** @lends input.prototype */{
+    onSetMod : {
+        'js' : {
+            'inited' : function() {
+                this.__base.apply(this, arguments);
+                this._val = this.elem('control').val();
+            }
+        }
+    },
+
+    /**
+     * Returns control value
+     * @returns {String}
+     * @override
+     */
+    getVal : function() {
+        return this._val;
+    },
+
+    /**
+     * Sets control value
+     * @param {String} val value
+     * @param {Object} [data] additional data
+     * @returns {input} this
+     */
+    setVal : function(val, data) {
+        val = String(val);
+
+        if(this._val !== val) {
+            this._val = val;
+
+            var control = this.elem('control');
+            control.val() !== val && control.val(val);
+
+            this.emit('change', data);
+        }
+
+        return this;
+    }
+}, /** @lends input */{
+    live : function() {
+        this.__base.apply(this, arguments);
+        return false;
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/common.blocks/input/input.js */
+/* begin: ../../libs/bem-components/desktop.blocks/input/input.js */
+/**
+ * @module input
+ */
+
+modules.define('input', ['tick', 'idle'], function(provide, tick, idle, Input) {
+
+var instances = [],
+    boundToTick,
+    bindToTick = function() {
+        boundToTick = true;
+        tick
+            .on('tick', update)
+            .start();
+        idle
+            .on({
+                idle : function() {
+                    tick.un('tick', update);
+                },
+                wakeup : function() {
+                    tick.on('tick', update);
+                }
+            })
+            .start();
+    },
+    update = function() {
+        var instance, i = 0;
+        while(instance = instances[i++]) {
+            instance.setVal(instance.elem('control').val());
+        }
+    };
+
+/**
+ * @exports
+ * @class input
+ * @bem
+ */
+provide(Input.decl(/** @lends input.prototype */{
+    onSetMod : {
+        'js' : {
+            'inited' : function() {
+                this.__base.apply(this, arguments);
+
+                boundToTick || bindToTick();
+
+                // сохраняем индекс в массиве инстансов чтобы потом быстро из него удалять
+                this._instanceIndex = instances.push(this) - 1;
+            },
+
+            '' : function() {
+                this.__base.apply(this, arguments);
+
+                // удаляем из общего массива instances
+                instances.splice(this._instanceIndex, 1);
+                // понижаем _instanceIndex всем тем кто был добавлен в instances после нас
+                var i = this._instanceIndex, instance;
+                while(instance = instances[i++]) --instance._instanceIndex;
+            }
+        }
+    },
+
+    /**
+     * Нормализация установки фокуса для IE
+     * @private
+     * @override
+     */
+    _focus : function() {
+        var input = this.elem('control')[0];
+        if(input.createTextRange && !input.selectionStart) {
+            var range = input.createTextRange();
+            range.move('character', input.value.length);
+            range.select();
+        } else {
+            input.focus();
+        }
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/desktop.blocks/input/input.js */
+/* begin: ../../libs/bem-core/common.blocks/tick/tick.vanilla.js */
+/**
+ * @module tick
+ * @description Helpers for polling anything
+ */
+
+modules.define('tick', ['inherit', 'events'], function(provide, inherit, events) {
+
+var TICK_INTERVAL = 50,
+    global = this.global,
+
+    /**
+     * @class Tick
+     * @augments events:Emitter
+     */
+    Tick = inherit(events.Emitter, /** @lends Tick.prototype */{
+        /**
+         * @constructor
+         */
+        __constructor : function() {
+            this._timer = null;
+            this._isStarted = false;
+        },
+
+        /**
+         * Starts polling
+         */
+        start : function() {
+            if(!this._isStarted) {
+                this._isStarted = true;
+                this._scheduleTick();
+            }
+        },
+
+        /**
+         * Stops polling
+         */
+        stop : function() {
+            if(this._isStarted) {
+                this._isStarted = false;
+                global.clearTimeout(this._timer);
+            }
+        },
+
+        _scheduleTick : function() {
+            var _this = this;
+            this._timer = global.setTimeout(
+                function() {
+                    _this._onTick();
+                },
+                TICK_INTERVAL);
+        },
+
+        _onTick : function() {
+            this.emit('tick');
+
+            this._isStarted && this._scheduleTick();
+        }
+    });
+
+provide(
+    /**
+     * @exports
+     * @type Tick
+     */
+    new Tick());
+
+});
+
+/* end: ../../libs/bem-core/common.blocks/tick/tick.vanilla.js */
+/* begin: ../../libs/bem-core/common.blocks/idle/idle.js */
+/**
+ * @module idle
+ */
+
+modules.define('idle', ['inherit', 'events', 'jquery'], function(provide, inherit, events, $) {
+
+var IDLE_TIMEOUT = 3000,
+    USER_EVENTS = 'mousemove keydown click',
+    /**
+     * @class Idle
+     * @augments events:Emitter
+     */
+    Idle = inherit(events.Emitter, /** @lends Idle.prototype */{
+        /**
+         * @constructor
+         */
+        __constructor : function() {
+            this._timer = null;
+            this._isStarted = false;
+            this._isIdle = false;
+        },
+
+        /**
+         * Starts monitoring of idle state
+         */
+        start : function() {
+            if(!this._isStarted) {
+                this._isStarted = true;
+                this._startTimer();
+                $(document).on(USER_EVENTS, $.proxy(this._onUserAction, this));
+            }
+        },
+
+        /**
+         * Stops monitoring of idle state
+         */
+        stop : function() {
+            if(this._isStarted) {
+                this._isStarted = false;
+                this._stopTimer();
+                $(document).off(USER_EVENTS, this._onUserAction);
+            }
+        },
+
+        /**
+         * Returns whether state is idle
+         * @returns {Boolean}
+         */
+        isIdle : function() {
+            return this._isIdle;
+        },
+
+        _onUserAction : function() {
+            if(this._isIdle) {
+                this._isIdle = false;
+                this.emit('wakeup');
+            }
+
+            this._stopTimer();
+            this._startTimer();
+        },
+
+        _startTimer : function() {
+            var _this = this;
+            this._timer = setTimeout(
+                function() {
+                    _this._onTimeout();
+                },
+                IDLE_TIMEOUT);
+        },
+
+        _stopTimer : function() {
+            this._timer && clearTimeout(this._timer);
+        },
+
+        _onTimeout : function() {
+            this._isIdle = true;
+            this.emit('idle');
+        }
+    });
+
+provide(
+    /**
+     * @exports
+     * @type Idle
+     */
+    new Idle());
+
+});
+
+/* end: ../../libs/bem-core/common.blocks/idle/idle.js */
+/* begin: ../../libs/bem-components/common.blocks/input/_has-clear/input_has-clear.js */
+/**
+ * @module input
+ */
+
+modules.define('input', function(provide, Input) {
+
+/**
+ * @exports
+ * @class input
+ * @bem
+ */
+provide(Input.decl({ modName : 'has-clear', modVal : true }, /** @lends input.prototype */{
+    onSetMod : {
+        'js' : {
+            'inited' : function() {
+                this.__base.apply(this, arguments);
+
+                this
+                    .on('change', this._updateClear)
+                    ._updateClear();
+            }
+        }
+    },
+
+    _onClearClick : function() {
+        this
+            .setVal('', { source : 'clear' })
+            .setMod('focused');
+    },
+
+    _updateClear : function() {
+        this.toggleMod(this.elem('clear'), 'visible', true, !!this._val);
+    }
+}, /** @lends input */{
+    live : function() {
+        this.liveBindTo('clear', 'pointerclick', function() {
+            this._onClearClick();
+        });
+
+        return this.__base.apply(this, arguments);
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/common.blocks/input/_has-clear/input_has-clear.js */
+/* begin: ../../libs/bem-components/desktop.blocks/input/_has-clear/input_has-clear.js */
+modules.define('input', function(provide, Input) {
+
+provide(Input.decl({ modName : 'has-clear', modVal : true }, {
+    _onBoxClick : function() {
+        this.hasMod(this.elem('clear'), 'visible') || this.setMod('focused');
+    }
+}, {
+    live : function() {
+        this.liveBindTo('box', 'pointerclick', function() {
+            this._onBoxClick();
+        });
+
+        return this.__base.apply(this, arguments);
+    }
+}));
+
+});
+
+/* end: ../../libs/bem-components/desktop.blocks/input/_has-clear/input_has-clear.js */
 /* begin: ../../libs/bem-core/common.blocks/i-bem/__dom/_init/i-bem__dom_init_auto.js */
 /**
  * Auto initialization on DOM ready
@@ -4048,3 +6027,46 @@ provide(
 });
 
 /* end: ../../libs/bem-core/common.blocks/loader/_type/loader_type_js.js */
+/* begin: ../../libs/bem-core/common.blocks/jquery/__event/_type/jquery__event_type_pointerpressrelease.js */
+modules.define('jquery', function(provide, $) {
+
+$.each({
+    pointerpress : 'pointerdown',
+    pointerrelease : 'pointerup pointercancel'
+}, function(fix, origEvent) {
+    function eventHandler(e) {
+        if(e.which === 1) {
+            var fixedEvent = cloneEvent(e);
+            fixedEvent.type = fix;
+            fixedEvent.originalEvent = e;
+            return $.event.dispatch.call(this, fixedEvent);
+        }
+    }
+
+    $.event.special[fix] = {
+        setup : function() {
+            $(this).on(origEvent, eventHandler);
+            return false;
+        },
+        teardown : function() {
+            $(this).off(origEvent, eventHandler);
+            return false;
+        }
+    };
+});
+
+function cloneEvent(event) {
+    var eventCopy = $.extend(new $.Event(), event);
+    if(event.preventDefault) {
+        eventCopy.preventDefault = function() {
+            event.preventDefault();
+        };
+    }
+    return eventCopy;
+}
+
+provide($);
+
+});
+
+/* end: ../../libs/bem-core/common.blocks/jquery/__event/_type/jquery__event_type_pointerpressrelease.js */

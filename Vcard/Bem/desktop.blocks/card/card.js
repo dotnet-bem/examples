@@ -10,9 +10,6 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
     var modVisible = 'card_visible';
     var modLinkDisabled = 'card__link_disabled_yes';
 
-    return {
-    };
-
     function addClass(elem, className) {
         if (!hasClass(elem, className)) {
             elem.className += ' ' + className;
@@ -37,14 +34,14 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
     }
 
     /**
-    * @exports
-    * @class card
-    * @bem
-    */
-    provide(BEMDOM.decl(this.name, /** @lends control.prototype */ {
+     * @exports
+     * @class card
+     * @bem
+     */
+    provide(BEMDOM.decl(this.name, /** @lends card.prototype */{
 
         onSetMod: {
-            js: {
+            'js': {
                 'inited': function () {
                     var toArray = Array.prototype.slice;
 
@@ -54,7 +51,7 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
                     var modVisible = 'card_visible';
                     var modLinkDisabled = 'card__link_disabled_yes';
 
-                    this.card = document.querySelector('.card');
+                    var card = this.card = document.querySelector('.card');
                     this.params = JSON.parse(this.card.dataset.bem).card;
 
                     this.sides = toArray.call(this.card.querySelectorAll('.card__side')).map(fillLang);
@@ -69,8 +66,8 @@ modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
                     this._onHashChange();
 
                     setTimeout(function () {
-                        addClass(Card.card, modAnimation);
-                        addClass(Card.card, modVisible);
+                        addClass(card, modAnimation);
+                        addClass(card, modVisible);
                     }, 0);
 
                     // drop phone links on desktop
