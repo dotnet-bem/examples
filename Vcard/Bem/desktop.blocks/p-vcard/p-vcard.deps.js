@@ -1,0 +1,5 @@
+﻿({
+    mustDeps: [
+        { block: 'page' }
+    ]
+})

@@ -14,5 +14,12 @@ namespace Vcard.Controllers
         {
             return new BemhtmlResult { Bemjson = new { block = "page", data = new { a = "1" } } };
         }
+
+
+        // GET: Vcard
+        public ActionResult Vcard()
+        {
+            return new BemhtmlResult { Bemjson = new { block = "p-vcard", data = new { a = "1" } } };
+        }
     }
 }

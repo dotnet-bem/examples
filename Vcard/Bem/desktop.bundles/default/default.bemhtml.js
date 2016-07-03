@@ -1977,9 +1977,26 @@ var api = new BEMHTML({});
 /// ------ BEM-XJST User-code Start -----
 /// -------------------------------------
 api.compile(function(match, once, wrap, block, elem, mode, mod, elemMod, def, tag, attrs, cls, js, bem, mix, content, replace, extend, oninit, xjstOptions, local, applyCtx, applyNext, apply) {
-/* begin: C:\Users\skywhale\Documents\GitHub\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
 ﻿block('example').content()('This is an example block');
-/* end: C:\Users\skywhale\Documents\GitHub\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
+﻿block('p-vcard').replace()(function () {
+
+    return {
+        block: 'page',
+        title: 'VCard',
+        head: [
+            { elem: 'meta', attrs: { name: 'description', content: '' } },
+            { elem: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
+            { elem: 'css', url: 'default.min.css' }
+        ],
+        scripts: [{ elem: 'js', url: 'default.min.js' }],
+        mix: { block: 'p-vcard' },
+        content: 'Hello world!'
+    };
+});
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
 oninit(function(exports, context) {
     var BEMContext = exports.BEMContext || context.BEMContext;
     // Provides third-party libraries from different modular systems

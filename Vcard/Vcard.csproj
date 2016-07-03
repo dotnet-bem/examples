@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EdgeJs, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Edge.js.5.9.1\lib\EdgeJs.dll</HintPath>
+      <HintPath>..\packages\Edge.js.5.9.2\lib\net40\EdgeJs.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -127,6 +127,8 @@
   <ItemGroup>
     <Content Include="Bem\.enb\make.js" />
     <Content Include="Bem\desktop.blocks\example\example.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.deps.js" />
     <Content Include="Bem\desktop.bundles\default\default.bemdecl.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bemhtml.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bh.js" />

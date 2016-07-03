@@ -1,3 +1,4 @@
 ﻿exports.blocks = [
-    { name: 'example' }
+    { name: 'example' },
+    { name: 'p-vcard' }
 ];
