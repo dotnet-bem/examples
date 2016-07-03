@@ -254,3 +254,6 @@ paket-files/
 # libs
 Vcard/Bem/libs
 
+Vcard/Bem/.enb/tmp/cache.json
+Vcard/Bem/desktop.bundles/default/default.js
+Vcard/Bem/desktop.bundles/default/default.js

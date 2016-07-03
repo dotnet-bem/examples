@@ -6,6 +6,12 @@ exports.deps = [
         "block": "page"
     },
     {
+        "block": "card"
+    },
+    {
+        "block": "metrika"
+    },
+    {
         "block": "p-vcard"
     }
 ];

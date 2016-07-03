@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EdgeJs, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Edge.js.5.9.2\lib\net40\EdgeJs.dll</HintPath>
+      <HintPath>..\packages\Edge.js.5.9.1\lib\EdgeJs.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -943,12 +943,6 @@
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.en.md" />
     <Content Include="Bem\libs\bem-components\CHANGELOG.ru.md" />
     <Content Include="Bem\libs\bem-components\CHANGELOG.md" />
-    <Content Include="edge\x86\edge_nativeclr.node">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="edge\x64\edge_nativeclr.node">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\__dom\ua__dom.ru.md" />
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\ua.ru.md" />
     <Content Include="Bem\libs\bem-core\touch.blocks\page\page.ru.md" />
@@ -1092,6 +1086,12 @@
     <Content Include="Bem\libs\bem-components\common.blocks\checkbox-group\checkbox-group.tests\gemini.blocks\test\test.styl" />
     <Content Include="Bem\libs\bem-components\common.blocks\checkbox-group\checkbox-group.ru.md" />
     <Content Include="Bem\libs\bem-components\common.blocks\checkbox-group\checkbox-group.en.md" />
+    <Content Include="edge\x86\edge_nativeclr.node">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="edge\x64\edge_nativeclr.node">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1101,6 +1101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Bem\libs\bem-vcard-enb\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>

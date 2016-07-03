@@ -1,0 +1,146 @@
+width = 553px
+height = 300px
+
+.ua_js_yes .card {
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.ua_js_yes .card_visible {
+    opacity: 1;
+}
+
+.card {
+    width: width
+    height: height
+
+    position: absolute;
+
+    margin: auto;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
+    perspective: 1000px;
+
+    &__text {
+        position: absolute;
+        top: 30px
+        left: 165px
+        width: 300px
+    }
+
+    &__side {
+        width: width
+        height: height
+        position: absolute;
+
+        top: 0;
+        left: 0;
+    }
+
+    &__rectangle {
+        z-index: 2;
+        position: absolute;
+        width: 465px;
+        height: height;
+        background: #fff;
+    }
+
+    &__side::after {
+        content: '';
+        left: 100%;
+        margin-left: -88px;
+        position: absolute;
+        border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) #fff;
+        border-style: solid;
+        border-width: 150px 0 150px 80px;
+        width: 0;
+        height: 0;
+        transform: rotate(0deg)
+        z-index: 3
+    }
+
+    &__title {
+        height: 98px;
+        margin-bottom: 10px;
+    }
+
+    &__gap {
+        height: 10px;
+    }
+
+    &__name {
+        font-size: 25px;
+        margin: 0;
+        font-weight: normal;
+    }
+
+    &__position {
+        font-size: 13px;
+        font-weight: normal;
+    }
+
+    &__side {
+        z-index: 1;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+        transform: rotateX(-180deg);
+    }
+
+    &_animation &__side_state_closed,
+    &_animation &__side_state_opened {
+        transition: all .4s ease-in-out;
+    }
+
+    &__side_state_closed {
+        transform: rotateX(180deg);
+    }
+
+    &__side_state_opened {
+        z-index: 2;
+        transform: rotateX(0);
+    }
+
+    &__switch {
+        position: absolute;
+        z-index: 10;
+        top: 310px;
+        right: 88px;
+        font-size: 14px;
+    }
+
+    &__switch &__link {
+        margin-left: 10px;
+    }
+
+    &__link, .mobile &__phone-link {
+        text-decoration: none;
+        color: #4183c4;
+        &:hover {
+            color: #d00;
+        }
+    }
+
+    &__link_disabled_yes, &__phone-link {
+        color: #000;
+        text-decoration: none;
+        cursor: default;
+        &:visited {
+            color: #000
+        }
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+    .card__switch {
+        font-size: 40px;
+    }
+    .card__switch .card__link {
+        margin-left: 30px;
+    }
+}

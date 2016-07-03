@@ -1980,8 +1980,516 @@ api.compile(function(match, once, wrap, block, elem, mode, mod, elemMod, def, ta
 /* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
 ﻿block('example').content()('This is an example block');
 /* end: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\page\page.bemhtml.js */
+/*global block,tag,attrs,mix,bem,match*/
+block('page')(
+    wrap()(function() {
+        return [
+            this.ctx.doctype || '<!DOCTYPE html>',
+            {
+                tag: 'html',
+                cls: 'ua_js_no',
+                content: [
+                    {
+                        elem: 'head',
+                        content: [
+                            { tag: 'meta', attrs: { charset: 'utf-8' } },
+                            { tag: 'meta', attrs: { name: 'format-detection', content: 'telephone=no' } },
+                            { tag: 'title', content: this.ctx.title },
+                            {
+                                elem: 'js',
+                                content: '(function(e,c){e[c]=e[c].replace(/(ua_js_)no/g,"$1yes");})(document.documentElement,"className");'
+                            },
+                            {
+                                elem: 'js',
+                                content: '(function(){/Android|iPhone/i.test(navigator.userAgent)&&(document.documentElement.className += \' mobile\')})()'
+                            },
+                            this.ctx.head,
+                            this.ctx.favicon ? { elem: 'favicon', url: this.ctx.favicon } : ''
+                        ]
+                    },
+                    this.ctx
+                ]
+            }
+        ];
+    }),
+
+    tag()('body'),
+
+    mix()({
+        block: 'font',
+        mods: { face: 'textbook-new' }
+    }),
+
+    elem('head')(
+        tag()('head'),
+        bem()(false)
+    ),
+
+    elem('meta')(
+        tag()('meta'),
+        bem()(false)
+    ),
+
+    elem('link')(
+        tag()('link'),
+        bem()(false)
+    ),
+
+    elem('favicon')(
+        tag()('link'),
+        bem()(false),
+        attrs()(function() {
+            return {
+                rel: 'shortcut icon',
+                href: this.ctx.url
+            };
+        })
+    ),
+
+    elem('js')(
+        tag()('script'),
+        bem()(false),
+        attrs()(function() {
+            return {
+                src: this.ctx.url
+            };
+        })
+    ),
+
+    elem('css')(
+        tag()('style'),
+        bem()(false),
+        match(function() { return this.ctx.url; })(
+            tag()('link'),
+            attrs()(function() {
+                return {
+                    rel: 'stylesheet',
+                    href: this.ctx.url
+                };
+            })
+        )
+    )
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\page\page.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\card\card.bemhtml.js */
+/*global block,tag,attrs,content,js*/
+var i18n = {
+    ru: {
+        tel: 'тел.: ',
+        telExt: ', доб. ',
+        fax: 'факс: ',
+        cell: 'моб.: '
+    },
+    en: {
+        tel: 'tel. ',
+        telExt: ' ext. ',
+        fax: 'fax ',
+        cell: 'cell. '
+    }
+};
+
+block('card')(
+    js()(function() {
+        var titles = {};
+        var ctx = this.ctx;
+
+        ctx.order.forEach(function(lang) {
+            titles[lang] = ctx.cards[lang].name;
+        });
+
+        return {
+            titles: titles,
+            favicons: ctx.favicons
+        };
+    }),
+
+    content()(function() {
+        var ctx = this.ctx;
+
+        return ctx.order.map((lang, i) => {
+            return {
+                elem: 'side',
+                mix: { elem: 'layout' },
+                attrs: {
+                    'data-lang': lang,
+                    itemscope: true,
+                    itemtype: 'http://data-vocabulary.org/Person'
+                },
+                elemMods: {
+                    lang: lang,
+                    state: i === 0 ? 'opened' : 'closed'
+                },
+                content: {
+                    elem: 'content',
+                    mix: { elem: 'rectangle' },
+                    data: ctx.cards[lang]
+                }
+            };
+        });
+    }),
+
+    // Language switch needed if there are more than one language
+    match(function() { return this.ctx.order.length > 1; }).content()(function() {
+        return [
+            applyNext(),
+            {
+                elem: 'switch',
+                content: this.ctx.order.map((lang, i) => {
+                    return {
+                        elem: 'link',
+                        attrs: {
+                            'data-lang': lang
+                        },
+                        elemMods: { disabled: i === 0 ? 'yes' : '' },
+                        url: '#' + lang,
+                        content: lang
+                    };
+                })
+            }
+        ];
+    }),
+
+    elem('content').content()(function() {
+        var data = this.ctx.data;
+
+        return [
+            {
+                elem: 'logo',
+                lang: data.lang,
+                site: data.company.site,
+                name: data.company.name
+            },
+            {
+                elem: 'text',
+                content: [
+                    {
+                        elem: 'title',
+                        data: {
+                            name: data.name,
+                            position: data.position
+                        },
+                        lang: data.lang
+                    },
+                    {
+                        elem: 'address',
+                        data: data.address,
+                        lang: data.lang
+                    },
+                    {
+                        elem: 'contact',
+                        data: data,
+                        lang: data.lang
+                    },
+                    {
+                        elem: 'extra',
+                        data: data.extra,
+                        lang: data.lang
+                    }
+                ]
+            }
+        ];
+    }),
+
+    elem('title').content()(function() {
+        return [
+            {
+                elem: 'name',
+                content: this.ctx.data.name
+            },
+            {
+                elem: 'position',
+                content: this.ctx.data.position
+            }
+        ];
+    }),
+
+    elem('name')(
+        tag()('h1'),
+        attrs()({
+            itemprop: 'name'
+        })
+    ),
+
+    elem('position').attrs()({
+        itemprop: 'title'
+    }),
+
+    elem('address')(
+        attrs()({
+            itemprop: 'address',
+            itemscope: true,
+            itemtype: 'http://data-vocabulary.org/Address'
+        }),
+
+        match(function() { return typeof this.ctx.data !== 'string'; })(
+            match(function() { return this.ctx.data.lang === 'ru'; })
+                .content()([ 'country', 'city', 'zip', 'street-address' ]),
+
+            content()(['city', 'zip', 'country', 'street-address']),
+
+            content()(function() {
+                var ctx = this.ctx;
+                return applyNext().map(function(el, i) {
+                    return [
+                        i !== 0 ? ', ' : '',
+                        {
+                            elem: el,
+                            content: ctx.data[el]
+                        }
+                    ];
+                })
+            })
+        )
+    ),
+
+    elem('country')(
+        tag()('span'),
+        attrs()({
+            itemprop: 'country-name'
+        })
+    ),
+
+    elem('city')(
+        tag()('span'),
+        attrs()({
+            itemprop: 'locality'
+        })
+    ),
+
+    elem('zip')(
+        tag()('span'),
+        attrs()({
+            itemprop: 'postal-code'
+        })
+    ),
+
+    elem('street-address')(
+        tag()('span'),
+        attrs()({
+            itemprop: 'street-address'
+        })
+    ),
+
+    elem('contact').content()(function() {
+        var content = [];
+        var data = this.ctx.data.contact;
+
+        if (data.work) {
+            content.push({
+                elem: 'tel',
+                elemMods: { type: 'work' },
+                content: [
+                    i18n[this.ctx.lang].tel,
+                    {
+                        elem: 'phone-link',
+                        raw: data.work.replace(/\(|\)|\s|\-/g, ''),
+                        content: data.work
+                    },
+                    data.workExt
+                        ? i18n[this.ctx.lang].telExt + data.workExt
+                        : ''
+                ]
+            });
+        }
+
+        if (data.cell) {
+            content.push({
+                elem: 'tel',
+                elemMods: { type: 'cellular' },
+                content: [
+                    i18n[this.ctx.lang].cell,
+                    {
+                        elem: 'phone-link',
+                        raw: data.cell.replace(/\(|\)|\s|\-/g, ''),
+                        content: data.cell
+                    }
+                ]
+            });
+        }
+
+        content.push({
+            elem: 'gap'
+        });
+
+        ['email', 'site'].filter((prop) => data[prop]).forEach(function(prop) {
+            content.push({
+                elem: prop,
+                data: data[prop]
+            });
+        });
+
+        content.push({
+            elem: 'gap'
+        });
+
+        ['skype', 'github', 'twitter'].filter((prop) => data[prop]).forEach(function(prop) {
+            content.push({
+                elem: prop,
+                content: data[prop]
+            });
+        });
+
+        return content;
+    }),
+
+    elem('phone-link')(
+        tag()('a'),
+        attrs()(function() {
+            return {
+                href: 'tel:' + this.ctx.raw
+            };
+        })
+    ),
+
+    elem('site').content()(function() {
+        return {
+            elem: 'link',
+            attrs: {
+                itemprop: 'url'
+            },
+            url: this.ctx.data,
+            content: this.ctx.data.replace(/https?:\/\//, '')
+        };
+    }),
+
+    elem('email').content()(function() {
+        return {
+            elem: 'link',
+            url: 'mailto:' + this.ctx.data,
+            content: this.ctx.data
+        };
+    }),
+
+    elem('github').content()(function() {
+        return {
+            elem: 'link',
+            url: 'https://github.com/' + this.ctx.content,
+            content: 'github.com/' + this.ctx.content
+        };
+    }),
+
+    elem('skype').content()(function() {
+        return [
+            'skype: ',
+            {
+                elem: 'link',
+                url: 'skype:' + this.ctx.content + '?chat',
+                content: {
+                    tag: 'span',
+                    attrs: {
+                        itemprop: 'nickname'
+                    },
+                    content: this.ctx.content
+                }
+            }
+        ];
+    }),
+
+    elem('twitter').content()(function() {
+        return {
+            elem: 'link',
+            url: 'https://twitter.com/' + this.ctx.content,
+            content: 'twitter.com/' + this.ctx.content
+        };
+    }),
+
+    elem('link')(
+        tag()('a'),
+        attrs()(function() {
+            return {
+                href: this.ctx.url
+            };
+        })
+    )
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\card\card.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\metrika\metrika.bemhtml.js */
+/*global block*/
+block('metrika').replace()(function() {
+    return [
+        {
+            tag: 'script',
+            content: 'Metrika.init(' + this.ctx.metrikaId + ')'
+        },
+        {
+            tag: 'noscript',
+            content: {
+                tag: 'img',
+                attrs: {
+                    src: 'https://mc.yandex.ru/watch/' + this.ctx.metrikaId,
+                    style: 'position:absolute; left:-9999px;',
+                    alt: ''
+                }
+            }
+        }
+    ];
+});
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\metrika\metrika.bemhtml.js */
 /* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
 ﻿block('p-vcard').replace()(function () {
+    var data = {};
+
+    data.order = [];
+    data.favicond = {
+        ru: '//yastatic.net/morda-logo/i/favicon_islands.ico',
+        en: '//yastatic.net/morda-logo/i/favicon_comtr.ico'
+    };
+    data.cards = {
+        ru: {
+            lang: 'ru',
+            name: 'Иван Иванов',
+            position: 'Разработчик интерфейсов',
+            address: {
+                country: 'Россия',
+                city: 'Москва',
+                zip: '119021',
+                'street-address': 'ул. Льва Толстого, д. 16'
+            },
+            company: {
+                name: 'Яндекс',
+                site: 'https://yandex.ru'
+            },
+            contact: {
+                work: '+7 (495) 739-70-00',
+                workExt: '0000',
+                cell: '+7 (555) 123-45-66',
+                email: 'ivanivanovich@yandex-team.ru',
+                site: 'https://ivanivanovich.ru',
+                github: 'ivanivanovich',
+                twitter: 'ivanivanovich',
+                skype: 'ivanivanovich'
+            }
+        },
+        en: {
+            lang: 'en',
+            name: 'Ivan Ivanov',
+            position: 'UI Developer',
+            address: {
+                country: 'Russia',
+                city: 'Moscow',
+                zip: '119021',
+                'street-address': '16, Leo Tolstoy St.'
+            },
+            company: {
+                name: 'Yandex',
+                site: 'https://yandex.com'
+            },
+            contact: {
+                work: '+7 (495) 739-70-00',
+                workExt: '000',
+                cell: '+7 (555) 123-45-67',
+                email: 'ivanivanovich@yandex-team.ru',
+                site: 'https://ivanivanovich.ru/#en',
+                skype: 'ivanivanovich',
+                github: 'ivanivanovich',
+                twitter: 'ivanivanovich'
+            }
+        }
+    };
 
     return {
         block: 'page',
@@ -1989,11 +2497,16 @@ api.compile(function(match, once, wrap, block, elem, mode, mod, elemMod, def, ta
         head: [
             { elem: 'meta', attrs: { name: 'description', content: '' } },
             { elem: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
-            { elem: 'css', url: 'default.min.css' }
+            { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' }
         ],
-        scripts: [{ elem: 'js', url: 'default.min.js' }],
+        scripts: [{ elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }],
         mix: { block: 'p-vcard' },
-        content: 'Hello world!'
+        content: {
+            block: 'card',
+            order: data.order,
+            cards: data.cards,
+            favicons: data.favicons
+        }
     };
 });
 /* end: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
