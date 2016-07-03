@@ -1,0 +1,9 @@
+node_modules
+.DS_Store
+.idea
+.enb/tmp
+pages/*/*.*
+!pages/*/*.bemjson.js
+!pages/*/*.bemdecl.js
+data.js
+npm-debug.log
