@@ -1,4 +1,7 @@
-var Card = (function() {
+/**
+ * @module card
+ */
+modules.define('card', ['i-bem__dom'], function (provide, BEMDOM) {
     var toArray = Array.prototype.slice;
 
     var modSideOpened = 'card__side_state_opened';
@@ -8,52 +11,95 @@ var Card = (function() {
     var modLinkDisabled = 'card__link_disabled_yes';
 
     return {
+    };
 
-        init: function() {
-            this.card = document.querySelector('.card');
-            this.params = JSON.parse(this.card.dataset.bem).card;
+    function addClass(elem, className) {
+        if (!hasClass(elem, className)) {
+            elem.className += ' ' + className;
+        }
+    }
 
-            this.sides = toArray.call(this.card.querySelectorAll('.card__side')).map(fillLang);
-            this.links = toArray.call(this.card.querySelectorAll('.card__switch .card__link')).map(fillLang);
+    function removeClass(elem, className) {
+        if (!hasClass(elem, className)) {
+            return;
+        }
 
-            // trying to fix google's markup tool
-            removeClass(this.sides[1].elem, modSideOpened);
-            addClass(this.sides[1].elem, modSideClosed);
+        var classes = elem.className.split(/\s/);
+        var idx = classes.indexOf(className);
 
-            window.addEventListener('hashchange', this._onHashChange.bind(this), false);
+        classes.splice(idx, 1);
 
-            this._onHashChange();
+        elem.className = classes.join(' ');
+    }
 
-            setTimeout(function() {
-                addClass(Card.card, modAnimation);
-                addClass(Card.card, modVisible);
-            }, 0);
+    function hasClass(elem, className) {
+        return elem.className.split(/\s/).indexOf(className) !== -1;
+    }
 
-            // drop phone links on desktop
-            if (!hasClass(document.documentElement, 'mobile')) {
-                setTimeout(function () {
-                    toArray.call(document.querySelectorAll('.card__phone-link')).forEach(function(elem) {
-                        elem.removeAttribute('href');
-                    });
-                }, 0);
-            }
+    /**
+    * @exports
+    * @class card
+    * @bem
+    */
+    provide(BEMDOM.decl(this.name, /** @lends control.prototype */ {
 
-            function fillLang(elem) {
-                return {
-                    lang: elem.dataset.lang,
-                    elem: elem
-                };
+        onSetMod: {
+            js: {
+                'inited': function () {
+                    var toArray = Array.prototype.slice;
+
+                    var modSideOpened = 'card__side_state_opened';
+                    var modSideClosed = 'card__side_state_closed';
+                    var modAnimation = 'card_animation';
+                    var modVisible = 'card_visible';
+                    var modLinkDisabled = 'card__link_disabled_yes';
+
+                    this.card = document.querySelector('.card');
+                    this.params = JSON.parse(this.card.dataset.bem).card;
+
+                    this.sides = toArray.call(this.card.querySelectorAll('.card__side')).map(fillLang);
+                    this.links = toArray.call(this.card.querySelectorAll('.card__switch .card__link')).map(fillLang);
+
+                    // trying to fix google's markup tool
+                    removeClass(this.sides[1].elem, modSideOpened);
+                    addClass(this.sides[1].elem, modSideClosed);
+
+                    window.addEventListener('hashchange', this._onHashChange.bind(this), false);
+
+                    this._onHashChange();
+
+                    setTimeout(function () {
+                        addClass(Card.card, modAnimation);
+                        addClass(Card.card, modVisible);
+                    }, 0);
+
+                    // drop phone links on desktop
+                    if (!hasClass(document.documentElement, 'mobile')) {
+                        setTimeout(function () {
+                            toArray.call(document.querySelectorAll('.card__phone-link')).forEach(function (elem) {
+                                elem.removeAttribute('href');
+                            });
+                        }, 0);
+                    }
+
+                    function fillLang(elem) {
+                        return {
+                            lang: elem.dataset.lang,
+                            elem: elem
+                        };
+                    }
+                }
             }
         },
 
-        _onHashChange: function() {
+        _onHashChange: function () {
             var lang = this._getLangFromHash();
             if (lang) {
                 this.changeLang(lang);
             }
         },
 
-        changeLang: function(lang) {
+        changeLang: function (lang) {
             this
                 ._changeTitle(lang)
                 ._changeFavicon(lang)
@@ -61,18 +107,18 @@ var Card = (function() {
                 ._changeUrl(lang);
         },
 
-        _changeTitle: function(lang) {
+        _changeTitle: function (lang) {
             document.title = this.params.titles[lang];
             return this;
         },
 
-        _changeFavicon: function(lang) {
+        _changeFavicon: function (lang) {
             document.querySelector('link[rel="shortcut icon"]').setAttribute('href', this.params.favicons[lang]);
             return this;
         },
 
-        _changeUrl: function(lang) {
-            this.links.forEach(function(link) {
+        _changeUrl: function (lang) {
+            this.links.forEach(function (link) {
                 if (link.lang === lang) {
                     addClass(link.elem, modLinkDisabled);
                 } else {
@@ -83,7 +129,7 @@ var Card = (function() {
             return this;
         },
 
-        _switchSide: function(lang) {
+        _switchSide: function (lang) {
             var from;
             var to;
 
@@ -114,32 +160,12 @@ var Card = (function() {
             return this;
         },
 
-        _getLangFromHash: function() {
+        _getLangFromHash: function () {
             var lang = document.location.hash.match(/(\w{2})/);
             return lang ? lang[1] : '';
         }
-    };
 
-    function addClass(elem, className) {
-        if (!hasClass(elem, className)) {
-            elem.className += ' ' + className;
-        }
-    }
+    }));
 
-    function removeClass(elem, className) {
-        if (!hasClass(elem, className)) {
-            return;
-        }
 
-        var classes = elem.className.split(/\s/);
-        var idx = classes.indexOf(className);
-
-        classes.splice(idx, 1);
-
-        elem.className = classes.join(' ');
-    }
-
-    function hasClass(elem, className) {
-        return elem.className.split(/\s/).indexOf(className) !== -1;
-    }
-}());
+});

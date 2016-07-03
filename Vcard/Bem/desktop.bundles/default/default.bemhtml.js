@@ -1980,6 +1980,143 @@ api.compile(function(match, once, wrap, block, elem, mode, mod, elemMod, def, ta
 /* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
 ﻿block('example').content()('This is an example block');
 /* end: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\page.bemhtml.js */
+block('page')(
+
+    wrap()(function() {
+        var ctx = this.ctx;
+        this._nonceCsp = ctx.nonce;
+
+        return [
+            ctx.doctype || '<!DOCTYPE html>',
+            {
+                tag : 'html',
+                cls : 'ua_js_no',
+                content : [
+                    {
+                        elem : 'head',
+                        content : [
+                            { tag : 'meta', attrs : { charset : 'utf-8' } },
+                            ctx.uaCompatible === false? '' : {
+                                tag : 'meta',
+                                attrs : {
+                                    'http-equiv' : 'X-UA-Compatible',
+                                    content : ctx.uaCompatible || 'IE=edge'
+                                }
+                            },
+                            { tag : 'title', content : ctx.title },
+                            { block : 'ua', attrs : { nonce : ctx.nonce } },
+                            ctx.head,
+                            ctx.styles,
+                            ctx.favicon? { elem : 'favicon', url : ctx.favicon } : ''
+                        ]
+                    },
+                    ctx
+                ]
+            }
+        ];
+    }),
+
+    tag()('body'),
+
+    content()(function() {
+        return [
+            applyNext(),
+            this.ctx.scripts
+        ];
+    }),
+
+    elem('head')(
+        bem()(false),
+        tag()('head')
+    ),
+
+    elem('meta')(
+        bem()(false),
+        tag()('meta')
+    ),
+
+    elem('link')(
+        bem()(false),
+        tag()('link')
+    ),
+
+    elem('favicon')(
+        bem()(false),
+        tag()('link'),
+        attrs()(function() { return { rel : 'shortcut icon', href : this.ctx.url }; })
+    )
+
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\page.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\ua\ua.bemhtml.js */
+block('ua')(
+    tag()('script'),
+    bem()(false),
+    content()([
+        '(function(e,c){',
+            'e[c]=e[c].replace(/(ua_js_)no/g,"$1yes");',
+        '})(document.documentElement,"className");'
+    ])
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\ua\ua.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__css\page__css.bemhtml.js */
+block('page').elem('css')(
+    bem()(false),
+    tag()('style'),
+    match(function() { return this.ctx.url; })(
+        tag()('link'),
+        attrs()(function() { return { rel : 'stylesheet', href : this.ctx.url }; })
+    )
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__css\page__css.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\desktop.blocks\page\__css\page__css.bemhtml.js */
+block('page').elem('css').match(function() {
+    return this.ctx.hasOwnProperty('ie');
+})(
+    wrap()(function() {
+        var ie = this.ctx.ie,
+            hideRule = !ie?
+                ['gt IE 9', '<!-->', '<!--'] :
+                ie === '!IE'?
+                    [ie, '<!-->', '<!--'] :
+                    [ie, '', ''];
+
+        return [
+            '<!--[if ' + hideRule[0] + ']>' + hideRule[1],
+            this.ctx,
+            hideRule[2] + '<![endif]-->'
+        ];
+    }),
+    def().match(function() { return this.ctx.ie === true; })(function() {
+        var url = this.ctx.url;
+        return applyCtx([6, 7, 8, 9].map(function(v) {
+            return { elem : 'css', url : url + '.ie' + v + '.css', ie : 'IE ' + v };
+        }));
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\desktop.blocks\page\__css\page__css.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__js\page__js.bemhtml.js */
+block('page').elem('js')(
+    bem()(false),
+    tag()('script'),
+    attrs()(function() {
+        var attrs = {};
+        if(this.ctx.url) {
+            attrs.src = this.ctx.url;
+        } else if(this._nonceCsp) {
+            attrs.nonce = this._nonceCsp;
+        }
+
+        return attrs;
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__js\page__js.bemhtml.js */
 /* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\card\card.bemhtml.js */
 /*global block,tag,attrs,content,js*/
 var i18n = {
