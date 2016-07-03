@@ -1,8 +1,8 @@
 ﻿block('p-vcard').replace()(function () {
     var data = {};
 
-    data.order = [];
-    data.favicond = {
+    data.order = ['ru', 'en'];
+    data.favicons = {
         ru: '//yastatic.net/morda-logo/i/favicon_islands.ico',
         en: '//yastatic.net/morda-logo/i/favicon_comtr.ico'
     };
@@ -63,11 +63,9 @@
         block: 'page',
         title: 'VCard',
         head: [
-            { elem: 'meta', attrs: { name: 'description', content: '' } },
-            { elem: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
-            { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' }
+            { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' },
+            { elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }
         ],
-        scripts: [{ elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }],
         mix: { block: 'p-vcard' },
         content: {
             block: 'card',

@@ -1,6 +1,6 @@
 ﻿({
     mustDeps: [
         { block: 'page' },
-        { block: 'card' }
+        { block: 'card', elems: ['logo'] }
     ]
 })

@@ -1980,35 +1980,38 @@ api.compile(function(match, once, wrap, block, elem, mode, mod, elemMod, def, ta
 /* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
 ﻿block('example').content()('This is an example block');
 /* end: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
-/* begin: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\page\page.bemhtml.js */
-/*global block,tag,attrs,mix,bem,match*/
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\page.bemhtml.js */
 block('page')(
+
     wrap()(function() {
+        var ctx = this.ctx;
+        this._nonceCsp = ctx.nonce;
+
         return [
-            this.ctx.doctype || '<!DOCTYPE html>',
+            ctx.doctype || '<!DOCTYPE html>',
             {
-                tag: 'html',
-                cls: 'ua_js_no',
-                content: [
+                tag : 'html',
+                cls : 'ua_js_no',
+                content : [
                     {
-                        elem: 'head',
-                        content: [
-                            { tag: 'meta', attrs: { charset: 'utf-8' } },
-                            { tag: 'meta', attrs: { name: 'format-detection', content: 'telephone=no' } },
-                            { tag: 'title', content: this.ctx.title },
-                            {
-                                elem: 'js',
-                                content: '(function(e,c){e[c]=e[c].replace(/(ua_js_)no/g,"$1yes");})(document.documentElement,"className");'
+                        elem : 'head',
+                        content : [
+                            { tag : 'meta', attrs : { charset : 'utf-8' } },
+                            ctx.uaCompatible === false? '' : {
+                                tag : 'meta',
+                                attrs : {
+                                    'http-equiv' : 'X-UA-Compatible',
+                                    content : ctx.uaCompatible || 'IE=edge'
+                                }
                             },
-                            {
-                                elem: 'js',
-                                content: '(function(){/Android|iPhone/i.test(navigator.userAgent)&&(document.documentElement.className += \' mobile\')})()'
-                            },
-                            this.ctx.head,
-                            this.ctx.favicon ? { elem: 'favicon', url: this.ctx.favicon } : ''
+                            { tag : 'title', content : ctx.title },
+                            { block : 'ua', attrs : { nonce : ctx.nonce } },
+                            ctx.head,
+                            ctx.styles,
+                            ctx.favicon? { elem : 'favicon', url : ctx.favicon } : ''
                         ]
                     },
-                    this.ctx
+                    ctx
                 ]
             }
         ];
@@ -2016,64 +2019,105 @@ block('page')(
 
     tag()('body'),
 
-    mix()({
-        block: 'font',
-        mods: { face: 'textbook-new' }
+    content()(function() {
+        return [
+            applyNext(),
+            this.ctx.scripts
+        ];
     }),
 
     elem('head')(
-        tag()('head'),
-        bem()(false)
+        bem()(false),
+        tag()('head')
     ),
 
     elem('meta')(
-        tag()('meta'),
-        bem()(false)
+        bem()(false),
+        tag()('meta')
     ),
 
     elem('link')(
-        tag()('link'),
-        bem()(false)
+        bem()(false),
+        tag()('link')
     ),
 
     elem('favicon')(
+        bem()(false),
         tag()('link'),
-        bem()(false),
-        attrs()(function() {
-            return {
-                rel: 'shortcut icon',
-                href: this.ctx.url
-            };
-        })
-    ),
+        attrs()(function() { return { rel : 'shortcut icon', href : this.ctx.url }; })
+    )
 
-    elem('js')(
-        tag()('script'),
-        bem()(false),
-        attrs()(function() {
-            return {
-                src: this.ctx.url
-            };
-        })
-    ),
+);
 
-    elem('css')(
-        tag()('style'),
-        bem()(false),
-        match(function() { return this.ctx.url; })(
-            tag()('link'),
-            attrs()(function() {
-                return {
-                    rel: 'stylesheet',
-                    href: this.ctx.url
-                };
-            })
-        )
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\page.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\ua\ua.bemhtml.js */
+block('ua')(
+    tag()('script'),
+    bem()(false),
+    content()([
+        '(function(e,c){',
+            'e[c]=e[c].replace(/(ua_js_)no/g,"$1yes");',
+        '})(document.documentElement,"className");'
+    ])
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\ua\ua.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__css\page__css.bemhtml.js */
+block('page').elem('css')(
+    bem()(false),
+    tag()('style'),
+    match(function() { return this.ctx.url; })(
+        tag()('link'),
+        attrs()(function() { return { rel : 'stylesheet', href : this.ctx.url }; })
     )
 );
 
-/* end: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\page\page.bemhtml.js */
-/* begin: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\card\card.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__css\page__css.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\desktop.blocks\page\__css\page__css.bemhtml.js */
+block('page').elem('css').match(function() {
+    return this.ctx.hasOwnProperty('ie');
+})(
+    wrap()(function() {
+        var ie = this.ctx.ie,
+            hideRule = !ie?
+                ['gt IE 9', '<!-->', '<!--'] :
+                ie === '!IE'?
+                    [ie, '<!-->', '<!--'] :
+                    [ie, '', ''];
+
+        return [
+            '<!--[if ' + hideRule[0] + ']>' + hideRule[1],
+            this.ctx,
+            hideRule[2] + '<![endif]-->'
+        ];
+    }),
+    def().match(function() { return this.ctx.ie === true; })(function() {
+        var url = this.ctx.url;
+        return applyCtx([6, 7, 8, 9].map(function(v) {
+            return { elem : 'css', url : url + '.ie' + v + '.css', ie : 'IE ' + v };
+        }));
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\desktop.blocks\page\__css\page__css.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__js\page__js.bemhtml.js */
+block('page').elem('js')(
+    bem()(false),
+    tag()('script'),
+    attrs()(function() {
+        var attrs = {};
+        if(this.ctx.url) {
+            attrs.src = this.ctx.url;
+        } else if(this._nonceCsp) {
+            attrs.nonce = this._nonceCsp;
+        }
+
+        return attrs;
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__js\page__js.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\card\card.bemhtml.js */
 /*global block,tag,attrs,content,js*/
 var i18n = {
     ru: {
@@ -2405,36 +2449,34 @@ block('card')(
     )
 );
 
-/* end: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\card\card.bemhtml.js */
-/* begin: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\metrika\metrika.bemhtml.js */
-/*global block*/
-block('metrika').replace()(function() {
-    return [
-        {
-            tag: 'script',
-            content: 'Metrika.init(' + this.ctx.metrikaId + ')'
-        },
-        {
-            tag: 'noscript',
-            content: {
-                tag: 'img',
-                attrs: {
-                    src: 'https://mc.yandex.ru/watch/' + this.ctx.metrikaId,
-                    style: 'position:absolute; left:-9999px;',
-                    alt: ''
-                }
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\card\card.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\card\__logo\card__logo.bemhtml.js */
+/*global block,tag,attrs,content*/
+block('card').elem('logo')(
+    tag()('a'),
+    attrs()(function() {
+        return {
+            href: this.ctx.site
+        };
+    }),
+    content()(function() {
+        return {
+            tag: 'span',
+            content: this.ctx.name,
+            attrs: {
+                itemprop: 'affiliation'
             }
-        }
-    ];
-});
+        };
+    })
+);
 
-/* end: C:\projects\examples\Vcard\Bem\libs\bem-vcard-enb\blocks\metrika\metrika.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\card\__logo\card__logo.bemhtml.js */
 /* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
 ﻿block('p-vcard').replace()(function () {
     var data = {};
 
-    data.order = [];
-    data.favicond = {
+    data.order = ['ru', 'en'];
+    data.favicons = {
         ru: '//yastatic.net/morda-logo/i/favicon_islands.ico',
         en: '//yastatic.net/morda-logo/i/favicon_comtr.ico'
     };
@@ -2495,11 +2537,9 @@ block('metrika').replace()(function() {
         block: 'page',
         title: 'VCard',
         head: [
-            { elem: 'meta', attrs: { name: 'description', content: '' } },
-            { elem: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
-            { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' }
+            { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' },
+            { elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }
         ],
-        scripts: [{ elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }],
         mix: { block: 'p-vcard' },
         content: {
             block: 'card',
