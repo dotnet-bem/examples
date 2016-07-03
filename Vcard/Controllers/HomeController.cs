@@ -12,7 +12,7 @@ namespace Vcard.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return new BemhtmlResult { Bemjson = new { block = "page", data = new { a = "1" } } };
+            return new BemhtmlResult { Bemjson = new { block = "p-form" } };
         }
 
 
