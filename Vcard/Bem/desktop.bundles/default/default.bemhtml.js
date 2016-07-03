@@ -2455,7 +2455,6 @@ block('card')(
 
 /* end: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/card/card.bemhtml.js */
 /* begin: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/card/__logo/card__logo.bemhtml.js */
-/*global block,tag,attrs,content*/
 block('card').elem('logo')(
     tag()('a'),
     attrs()(function() {
@@ -2704,7 +2703,7 @@ block('input').elem('clear').tag()('span');
 ﻿block('p-vcard').replace()(function () {
     var data = {};
 
-    data.order = ['ru', 'en'];
+    data.order = ['ru'];
     data.favicons = {
         ru: '//yastatic.net/morda-logo/i/favicon_islands.ico',
         en: '//yastatic.net/morda-logo/i/favicon_comtr.ico'
@@ -2733,31 +2732,6 @@ block('input').elem('clear').tag()('span');
                 github: 'ivanivanovich',
                 twitter: 'ivanivanovich',
                 skype: 'ivanivanovich'
-            }
-        },
-        en: {
-            lang: 'en',
-            name: 'Ivan Ivanov',
-            position: 'UI Developer',
-            address: {
-                country: 'Russia',
-                city: 'Moscow',
-                zip: '119021',
-                'street-address': '16, Leo Tolstoy St.'
-            },
-            company: {
-                name: 'Yandex',
-                site: 'https://yandex.com'
-            },
-            contact: {
-                work: '+7 (495) 739-70-00',
-                workExt: '000',
-                cell: '+7 (555) 123-45-67',
-                email: 'ivanivanovich@yandex-team.ru',
-                site: 'https://ivanivanovich.ru/#en',
-                skype: 'ivanivanovich',
-                github: 'ivanivanovich',
-                twitter: 'ivanivanovich'
             }
         }
     };

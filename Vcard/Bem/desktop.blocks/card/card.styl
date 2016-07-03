@@ -1,13 +1,13 @@
 width = 553px
 height = 300px
 
-.ua_js_yes .card {
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
+.card {
+    animation: fadein 0.4s ease-in-out;
 }
 
-.ua_js_yes .card_visible {
-    opacity: 1;
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 .card {

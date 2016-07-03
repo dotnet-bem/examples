@@ -1,4 +1,3 @@
-/*global block,tag,attrs,content*/
 block('card').elem('logo')(
     tag()('a'),
     attrs()(function() {
