@@ -1,4 +1,29 @@
-﻿.vcard-form__input
+﻿.vcard-form
+{
+    padding: 20px;
+}
+
+.vcard-form__input
+{
+    margin: 2px;
+    display: block;
+}
+
+.vcard-form__input_name_address-country,
+.vcard-form__input_name_company-name,
+.vcard-form__input_name_contact-work
+{
+    margin-top: 10px;
+}
+
+.vcard-form__ru,
+.vcard-form__en
+{
+    display: none;
+}
+
+.vcard-form_tab_ru .vcard-form__ru,
+.vcard-form_tab_en .vcard-form__en
 {
     display: block;
 }

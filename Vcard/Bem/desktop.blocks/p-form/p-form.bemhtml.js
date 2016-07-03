@@ -1,19 +1,33 @@
 ﻿block('p-form').replace()(function () {
     var filds = {
-            'name': 'ФИО',
-            'position': 'Должность',
-            'country': 'Страна', 
-            'city': 'Город', 
-            'zip-code': 'Индекс',
-            'street': 'Улица',
-            'company-name': 'Кампания', 
-            'site': 'Сайт',
-            'contact-work': 'Рабочий телефон',
-            'contact-email': 'email', 
-            'github': '', 
-            'twitter': '', 
-            'skype': ''
-        };
+        'name': 'ФИО',
+        'position': 'Должность',
+        'address.country': 'Страна',
+        'address.city': 'Город',
+        'address.zip': 'Индекс',
+        'address.street-address': 'Улица',
+        'company.name': 'Кампания',
+        'company.site': 'Сайт',
+        'contact.work': 'Рабочий телефон',
+        'contact.email': 'email',
+        'contact.github': '',
+        'contact.twitter': '',
+        'contact.skype': ''
+    };
+
+    var getName = function (name) {
+        return name.toLowerCase().replace(/\./g, '-');
+    }
+
+    var getPlaceholder = function (placeholder) {
+        placeholder = placeholder
+            .replace(/-/g, ' ')
+            .replace(/\./g, ' ')
+
+        placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1);
+
+        return placeholder;
+    }
 
 /*
     name: 'Иван Иванов',
@@ -47,25 +61,29 @@
         head: [
             { elem: 'meta', attrs: { name: 'description', content: '' } },
             { elem: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
-            { elem: 'css', url: 'default.min.css' }
+            { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' }
         ],
-        //scripts: [{ elem: 'js', url: '/Bem/desktop.bundles/default/default.css' }],
-        mix: { block: 'p-vcard' },
+        scripts: [{ elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }],
+        mix: { block: 'p-form' },
         content: [
-            {
-                block: 'radio-group',
-                mods: { theme: 'islands', size: 'm' },
-                name: 'lang',
-                val: 'ru',
-                options: [
-                    { val: 'ru', text: 'ru' },
-                    { val: 'en', text: 'en' }
-                ]
-            },
             {
                 block: 'vcard-form',
                 mods: { tab: 'ru' },
+                js: true,
+                tag: 'form',
+                attrs: { action: '/', method: 'post' },
                 content: [
+                    {
+                        block: 'radio-group',
+                        mods: { theme: 'islands', size: 'm' },
+                        mix: { block: 'vcard-form', elem: 'lang' },
+                        name: 'lang',
+                        val: 'ru',
+                        options: [
+                            { val: 'ru', text: 'На родном языке' },
+                            { val: 'en', text: 'На английском' }
+                        ]
+                    },
                     {
                         elem: 'ru',
                         content: Object.keys(filds).map(function (fildName) {
@@ -75,34 +93,35 @@
                                 mix: {
                                     block: 'vcard-form',
                                     elem: 'input',
-                                    mods: { name: fildName }
+                                    elemMods: { name: getName(fildName) }
                                 },
                                 val: '',
                                 name: fildName,
-                                placeholder: filds[fildName] || fildName
+                                placeholder: getPlaceholder(filds[fildName] || fildName)
                             }
                         })
                     },
                     {
                         elem: 'en',
                         content: Object.keys(filds).map(function (fildName) {
-                            var placeholder = fildName.replace(/-/g, ' ');
-
-                            placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1);
-
                             return {
                                 block: 'input',
                                 mods: { 'has-clear': true },
                                 mix: {
                                     block: 'vcard-form',
                                     elem: 'input',
-                                    mods: { name: fildName }
+                                    elemMods: { name: getName(fildName) }
                                 },
                                 val: '',
                                 name: fildName,
-                                placeholder: placeholder
+                                placeholder: getPlaceholder(fildName)
                             }
                         })
+                    },
+                    {
+                        block: 'button',
+                        mods: { type: 'submit' },
+                        text: 'Жмак'
                     }
                 ]
             }
