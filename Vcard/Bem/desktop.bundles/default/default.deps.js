@@ -1,0 +1,5 @@
+exports.deps = [
+    {
+        "block": "example"
+    }
+];

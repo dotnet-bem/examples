@@ -80,6 +80,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.Bem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Bem.1.0.0-alpha\lib\net452\System.Web.Bem.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -121,6 +125,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Bem\.enb\make.js" />
+    <Content Include="Bem\desktop.blocks\example\example.bemhtml.js" />
+    <Content Include="Bem\desktop.bundles\default\default.bemdecl.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bemhtml.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bh.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.deps.js" />
@@ -856,6 +863,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1091,8 +1099,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -1125,7 +1133,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\System.Web.Bem.1.0.0-alpha\build\System.Web.Bem.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Web.Bem.1.0.0-alpha\build\System.Web.Bem.targets'))" />
   </Target>
+  <Import Project="..\packages\System.Web.Bem.1.0.0-alpha\build\System.Web.Bem.targets" Condition="Exists('..\packages\System.Web.Bem.1.0.0-alpha\build\System.Web.Bem.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
