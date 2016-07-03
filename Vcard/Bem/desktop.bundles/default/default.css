@@ -1,0 +1,154 @@
+/* ../../libs/bem-vcard-enb/blocks/page/page.css:begin */
+html, body {
+    height: 100%;
+}
+
+.page {
+    font: 12px/1.3 Arial, Helvetica, sans-serif;
+
+    position: relative;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    color: #000;
+    background: #EDEDED;
+}
+/* ../../libs/bem-vcard-enb/blocks/page/page.css:end */
+/* ../../libs/bem-vcard-enb/blocks/card/card.styl:begin */
+.ua_js_yes .card {
+  opacity: 0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+.ua_js_yes .card_visible {
+  opacity: 1;
+}
+.card {
+  width: 553px;
+  height: 300px;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  -webkit-perspective: 1000px;
+          perspective: 1000px;
+}
+.card__text {
+  position: absolute;
+  top: 30px;
+  left: 165px;
+  width: 300px;
+}
+.card__side {
+  width: 553px;
+  height: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.card__rectangle {
+  z-index: 2;
+  position: absolute;
+  width: 465px;
+  height: 300px;
+  background: #fff;
+}
+.card__side::after {
+  content: '';
+  left: 100%;
+  margin-left: -88px;
+  position: absolute;
+  border-color: rgba(255,255,255,0) rgba(255,255,255,0) rgba(255,255,255,0) #fff;
+  border-style: solid;
+  border-width: 150px 0 150px 80px;
+  width: 0;
+  height: 0;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  z-index: 3;
+}
+.card__title {
+  height: 98px;
+  margin-bottom: 10px;
+}
+.card__gap {
+  height: 10px;
+}
+.card__name {
+  font-size: 25px;
+  margin: 0;
+  font-weight: normal;
+}
+.card__position {
+  font-size: 13px;
+  font-weight: normal;
+}
+.card__side {
+  z-index: 1;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-transform: rotateX(-180deg);
+          transform: rotateX(-180deg);
+}
+.card_animation .card__side_state_closed,
+.card_animation .card__side_state_opened {
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.card__side_state_closed {
+  -webkit-transform: rotateX(180deg);
+          transform: rotateX(180deg);
+}
+.card__side_state_opened {
+  z-index: 2;
+  -webkit-transform: rotateX(0);
+          transform: rotateX(0);
+}
+.card__switch {
+  position: absolute;
+  z-index: 10;
+  top: 310px;
+  right: 88px;
+  font-size: 14px;
+}
+.card__switch .card__link {
+  margin-left: 10px;
+}
+.card__link,
+.mobile .card__phone-link {
+  text-decoration: none;
+  color: #4183c4;
+}
+.card__link:hover,
+.mobile .card__phone-link:hover {
+  color: #d00;
+}
+.card__link_disabled_yes,
+.card__phone-link {
+  color: #000;
+  text-decoration: none;
+  cursor: default;
+}
+.card__link_disabled_yes:visited,
+.card__phone-link:visited {
+  color: #000;
+}
+.card__link_disabled_yes:hover,
+.card__phone-link:hover {
+  text-decoration: none;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
+  .card__switch {
+    font-size: 40px;
+  }
+  .card__switch .card__link {
+    margin-left: 30px;
+  }
+}
+/* ../../libs/bem-vcard-enb/blocks/card/card.styl:end */
