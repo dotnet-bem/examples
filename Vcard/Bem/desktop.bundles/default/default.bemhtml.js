@@ -2133,8 +2133,8 @@ var i18n = {
 
 block('card')(
     js()(function() {
-        var titles = {};
-        var ctx = this.ctx;
+        var titles = {},
+            ctx = this.ctx;
 
         ctx.order.forEach(function(lang) {
             titles[lang] = ctx.cards[lang].name;
@@ -2149,7 +2149,7 @@ block('card')(
     content()(function() {
         var ctx = this.ctx;
 
-        return ctx.order.map((lang, i) => {
+        return ctx.order.map(function(lang, i) {
             return {
                 elem: 'side',
                 mix: { elem: 'layout' },
@@ -2177,7 +2177,7 @@ block('card')(
             applyNext(),
             {
                 elem: 'switch',
-                content: this.ctx.order.map((lang, i) => {
+                content: this.ctx.order.map(function(lang, i) {
                     return {
                         elem: 'link',
                         attrs: {
@@ -2354,7 +2354,9 @@ block('card')(
             elem: 'gap'
         });
 
-        ['email', 'site'].filter((prop) => data[prop]).forEach(function(prop) {
+        ['email', 'site'].filter(function(prop) {
+            return !!data[prop];
+        }).forEach(function(prop) {
             content.push({
                 elem: prop,
                 data: data[prop]
@@ -2365,7 +2367,9 @@ block('card')(
             elem: 'gap'
         });
 
-        ['skype', 'github', 'twitter'].filter((prop) => data[prop]).forEach(function(prop) {
+        ['skype', 'github', 'twitter'].filter(function(prop) {
+            return !!data[prop];
+        }).forEach(function(prop) {
             content.push({
                 elem: prop,
                 content: data[prop]
@@ -2448,7 +2452,6 @@ block('card')(
 
 /* end: C:\projects\examples\Vcard\Bem\desktop.blocks\card\card.bemhtml.js */
 /* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\card\__logo\card__logo.bemhtml.js */
-/*global block,tag,attrs,content*/
 block('card').elem('logo')(
     tag()('a'),
     attrs()(function() {
@@ -2697,80 +2700,37 @@ block('input').elem('clear').tag()('span');
 ﻿block('p-vcard').replace()(function () {
     var data = {};
 
-    data.order = ['ru', 'en'];
+    data.order = ['ru'];
     data.favicons = {
         ru: '//yastatic.net/morda-logo/i/favicon_islands.ico',
         en: '//yastatic.net/morda-logo/i/favicon_comtr.ico'
     };
     data.cards = {
-        ru: {
-            lang: 'ru',
-            name: 'Иван Иванов',
-            position: 'Разработчик интерфейсов',
-            address: {
-                country: 'Россия',
-                city: 'Москва',
-                zip: '119021',
-                'street-address': 'ул. Льва Толстого, д. 16'
-            },
-            company: {
-                name: 'Яндекс',
-                site: 'https://yandex.ru'
-            },
-            contact: {
-                work: '+7 (495) 739-70-00',
-                workExt: '0000',
-                cell: '+7 (555) 123-45-66',
-                email: 'ivanivanovich@yandex-team.ru',
-                site: 'https://ivanivanovich.ru',
-                github: 'ivanivanovich',
-                twitter: 'ivanivanovich',
-                skype: 'ivanivanovich'
-            }
-        },
-        en: {
-            lang: 'en',
-            name: 'Ivan Ivanov',
-            position: 'UI Developer',
-            address: {
-                country: 'Russia',
-                city: 'Moscow',
-                zip: '119021',
-                'street-address': '16, Leo Tolstoy St.'
-            },
-            company: {
-                name: 'Yandex',
-                site: 'https://yandex.com'
-            },
-            contact: {
-                work: '+7 (495) 739-70-00',
-                workExt: '000',
-                cell: '+7 (555) 123-45-67',
-                email: 'ivanivanovich@yandex-team.ru',
-                site: 'https://ivanivanovich.ru/#en',
-                skype: 'ivanivanovich',
-                github: 'ivanivanovich',
-                twitter: 'ivanivanovich'
-            }
-        }
+        ru: this.ctx.data
     };
 
     return {
         block: 'page',
         title: 'VCard',
+        favicon : '//bem.info/favicon.ico',
         head: [
             { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' },
             { elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }
         ],
         mix: { block: 'p-vcard' },
         content: {
-            block: 'card',
-            order: data.order,
-            cards: data.cards,
-            favicons: data.favicons
+            block: 'p-vcard',
+            elem: 'content',
+            content: {
+                block: 'card',
+                order: data.order,
+                cards: data.cards,
+                favicons: data.favicons
+            }
         }
     };
 });
+
 /* end: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
 /* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_togglable\button_togglable_radio.bemhtml.js */
 block('button').mod('togglable', 'radio').attrs()(function() {
