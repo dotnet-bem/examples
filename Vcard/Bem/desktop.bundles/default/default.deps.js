@@ -1,8 +1,5 @@
 exports.deps = [
     {
-        "block": "example"
-    },
-    {
         "block": "page"
     },
     {
@@ -179,6 +176,10 @@ exports.deps = [
         "mod": "size"
     },
     {
+        "block": "button",
+        "mod": "size"
+    },
+    {
         "block": "input"
     },
     {
@@ -210,6 +211,14 @@ exports.deps = [
     {
         "block": "input",
         "elem": "clear"
+    },
+    {
+        "block": "input",
+        "mod": "theme"
+    },
+    {
+        "block": "input",
+        "mod": "size"
     },
     {
         "block": "p-vcard"
@@ -293,6 +302,11 @@ exports.deps = [
         "val": "m"
     },
     {
+        "block": "button",
+        "mod": "size",
+        "val": "m"
+    },
+    {
         "block": "input",
         "mod": "has-clear",
         "val": true
@@ -306,6 +320,16 @@ exports.deps = [
         "block": "input",
         "mod": "focused",
         "val": true
+    },
+    {
+        "block": "input",
+        "mod": "theme",
+        "val": "islands"
+    },
+    {
+        "block": "input",
+        "mod": "size",
+        "val": "m"
     },
     {
         "block": "p-form"

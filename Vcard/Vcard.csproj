@@ -127,8 +127,13 @@
   <ItemGroup>
     <Content Include="Bem\.enb\make.js" />
     <Content Include="Bem\desktop.blocks\example\example.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\p-form\p-form.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\p-form\p-form.css" />
+    <Content Include="Bem\desktop.blocks\p-form\p-form.deps.js" />
     <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.deps.js" />
+    <Content Include="Bem\desktop.blocks\vcard-form\vcard-form.css" />
+    <Content Include="Bem\desktop.blocks\vcard-form\vcard-form.js" />
     <Content Include="Bem\desktop.bundles\default\default.bemdecl.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bemhtml.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bh.js" />

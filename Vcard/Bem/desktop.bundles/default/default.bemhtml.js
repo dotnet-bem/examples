@@ -1977,10 +1977,7 @@ var api = new BEMHTML({});
 /// ------ BEM-XJST User-code Start -----
 /// -------------------------------------
 api.compile(function(match, once, wrap, block, elem, mode, mod, elemMod, def, tag, attrs, cls, js, bem, mix, content, replace, extend, oninit, xjstOptions, local, applyCtx, applyNext, apply) {
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/example/example.bemhtml.js */
-﻿block('example').content()('This is an example block');
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/example/example.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/common.blocks/page/page.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\page.bemhtml.js */
 block('page')(
 
     wrap()(function() {
@@ -2049,8 +2046,8 @@ block('page')(
 
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/common.blocks/page/page.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/common.blocks/ua/ua.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\page.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\ua\ua.bemhtml.js */
 block('ua')(
     tag()('script'),
     bem()(false),
@@ -2061,8 +2058,8 @@ block('ua')(
     ])
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/common.blocks/ua/ua.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/common.blocks/page/__css/page__css.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\ua\ua.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__css\page__css.bemhtml.js */
 block('page').elem('css')(
     bem()(false),
     tag()('style'),
@@ -2072,8 +2069,8 @@ block('page').elem('css')(
     )
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/common.blocks/page/__css/page__css.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/desktop.blocks/page/__css/page__css.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__css\page__css.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\desktop.blocks\page\__css\page__css.bemhtml.js */
 block('page').elem('css').match(function() {
     return this.ctx.hasOwnProperty('ie');
 })(
@@ -2099,8 +2096,8 @@ block('page').elem('css').match(function() {
     })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/desktop.blocks/page/__css/page__css.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/common.blocks/page/__js/page__js.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\desktop.blocks\page\__css\page__css.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__js\page__js.bemhtml.js */
 block('page').elem('js')(
     bem()(false),
     tag()('script'),
@@ -2116,8 +2113,8 @@ block('page').elem('js')(
     })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-core/common.blocks/page/__js/page__js.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/card/card.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\__js\page__js.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\card\card.bemhtml.js */
 /*global block,tag,attrs,content,js*/
 var i18n = {
     ru: {
@@ -2136,8 +2133,8 @@ var i18n = {
 
 block('card')(
     js()(function() {
-        var titles = {},
-            ctx = this.ctx;
+        var titles = {};
+        var ctx = this.ctx;
 
         ctx.order.forEach(function(lang) {
             titles[lang] = ctx.cards[lang].name;
@@ -2152,7 +2149,7 @@ block('card')(
     content()(function() {
         var ctx = this.ctx;
 
-        return ctx.order.map(function(lang, i) {
+        return ctx.order.map((lang, i) => {
             return {
                 elem: 'side',
                 mix: { elem: 'layout' },
@@ -2180,7 +2177,7 @@ block('card')(
             applyNext(),
             {
                 elem: 'switch',
-                content: this.ctx.order.map(function(lang, i) {
+                content: this.ctx.order.map((lang, i) => {
                     return {
                         elem: 'link',
                         attrs: {
@@ -2357,9 +2354,7 @@ block('card')(
             elem: 'gap'
         });
 
-        ['email', 'site'].filter(function(prop) {
-            return !!data[prop];
-        }).forEach(function(prop) {
+        ['email', 'site'].filter((prop) => data[prop]).forEach(function(prop) {
             content.push({
                 elem: prop,
                 data: data[prop]
@@ -2370,9 +2365,7 @@ block('card')(
             elem: 'gap'
         });
 
-        ['skype', 'github', 'twitter'].filter(function(prop) {
-            return !!data[prop];
-        }).forEach(function(prop) {
+        ['skype', 'github', 'twitter'].filter((prop) => data[prop]).forEach(function(prop) {
             content.push({
                 elem: prop,
                 content: data[prop]
@@ -2453,8 +2446,9 @@ block('card')(
     )
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/card/card.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/card/__logo/card__logo.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\card\card.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\card\__logo\card__logo.bemhtml.js */
+/*global block,tag,attrs,content*/
 block('card').elem('logo')(
     tag()('a'),
     attrs()(function() {
@@ -2473,8 +2467,8 @@ block('card').elem('logo')(
     })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/card/__logo/card__logo.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio-group/radio-group.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\card\__logo\card__logo.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio-group\radio-group.bemhtml.js */
 block('radio-group')(
     tag()('span'),
 
@@ -2513,8 +2507,8 @@ block('radio-group')(
     })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio-group/radio-group.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio/radio.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio-group\radio-group.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\radio.bemhtml.js */
 block('radio')(
     tag()('label'),
     js()(true),
@@ -2539,12 +2533,12 @@ block('radio')(
     })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio/radio.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio/__box/radio__box.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\radio.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__box\radio__box.bemhtml.js */
 block('radio').elem('box').tag()('span');
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio/__box/radio__box.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio/__control/radio__control.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__box\radio__box.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__control\radio__control.bemhtml.js */
 block('radio').elem('control')(
     tag()('input'),
 
@@ -2565,8 +2559,8 @@ block('radio').elem('control')(
     })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio/__control/radio__control.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio/__text/radio__text.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__control\radio__control.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__text\radio__text.bemhtml.js */
 block('radio').elem('text')(
     tag()('span'),
     attrs()(function() {
@@ -2574,8 +2568,8 @@ block('radio').elem('text')(
     })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/radio/__text/radio__text.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/button/button.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__text\radio__text.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\button.bemhtml.js */
 block('button')(
     def()(function() {
         var tag = apply('tag'),
@@ -2639,18 +2633,18 @@ block('button')(
     )
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/button/button.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/button/_focused/button_focused.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\button.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_focused\button_focused.bemhtml.js */
 block('button').mod('focused', true).js()(function() {
     return this.extend(applyNext(), { live : false });
 });
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/button/_focused/button_focused.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/button/__text/button__text.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_focused\button_focused.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\__text\button__text.bemhtml.js */
 block('button').elem('text').tag()('span');
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/button/__text/button__text.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/input.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\__text\button__text.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\input.bemhtml.js */
 block('input')(
     tag()('span'),
     js()(true),
@@ -2660,12 +2654,12 @@ block('input')(
     content()({ elem : 'box', content : { elem : 'control' } })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/input.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/__box/input__box.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\input.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__box\input__box.bemhtml.js */
 block('input').elem('box').tag()('span');
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/__box/input__box.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/__control/input__control.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__box\input__box.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__control\input__control.bemhtml.js */
 block('input').elem('control')(
     tag()('input'),
 
@@ -2687,23 +2681,23 @@ block('input').elem('control')(
     })
 );
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/__control/input__control.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/_has-clear/input_has-clear.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__control\input__control.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\_has-clear\input_has-clear.bemhtml.js */
 block('input').mod('has-clear', true).elem('box')
     .content()(function() {
         return [this.ctx.content, { elem : 'clear' }];
     });
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/_has-clear/input_has-clear.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/__clear/input__clear.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\_has-clear\input_has-clear.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__clear\input__clear.bemhtml.js */
 block('input').elem('clear').tag()('span');
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/input/__clear/input__clear.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/p-vcard/p-vcard.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__clear\input__clear.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
 ﻿block('p-vcard').replace()(function () {
     var data = {};
 
-    data.order = ['ru'];
+    data.order = ['ru', 'en'];
     data.favicons = {
         ru: '//yastatic.net/morda-logo/i/favicon_islands.ico',
         en: '//yastatic.net/morda-logo/i/favicon_comtr.ico'
@@ -2733,39 +2727,58 @@ block('input').elem('clear').tag()('span');
                 twitter: 'ivanivanovich',
                 skype: 'ivanivanovich'
             }
+        },
+        en: {
+            lang: 'en',
+            name: 'Ivan Ivanov',
+            position: 'UI Developer',
+            address: {
+                country: 'Russia',
+                city: 'Moscow',
+                zip: '119021',
+                'street-address': '16, Leo Tolstoy St.'
+            },
+            company: {
+                name: 'Yandex',
+                site: 'https://yandex.com'
+            },
+            contact: {
+                work: '+7 (495) 739-70-00',
+                workExt: '000',
+                cell: '+7 (555) 123-45-67',
+                email: 'ivanivanovich@yandex-team.ru',
+                site: 'https://ivanivanovich.ru/#en',
+                skype: 'ivanivanovich',
+                github: 'ivanivanovich',
+                twitter: 'ivanivanovich'
+            }
         }
     };
 
     return {
         block: 'page',
         title: 'VCard',
-        favicon : '//bem.info/favicon.ico',
         head: [
-            { elem: 'css', url: 'default.css' },
-            { elem: 'js', url: 'default.js' }
+            { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' },
+            { elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }
         ],
         mix: { block: 'p-vcard' },
         content: {
-            block: 'p-vcard',
-            elem: 'content',
-            content: {
-                block: 'card',
-                order: data.order,
-                cards: data.cards,
-                favicons: data.favicons
-            }
+            block: 'card',
+            order: data.order,
+            cards: data.cards,
+            favicons: data.favicons
         }
     };
 });
-
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/p-vcard/p-vcard.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/button/_togglable/button_togglable_radio.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_togglable\button_togglable_radio.bemhtml.js */
 block('button').mod('togglable', 'radio').attrs()(function() {
     return this.extend(applyNext(), { 'aria-pressed' : String(!!this.mods.checked) });
 });
 
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/libs/bem-components/common.blocks/button/_togglable/button_togglable_radio.bemhtml.js */
-/* begin: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/p-form/p-form.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_togglable\button_togglable_radio.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\p-form\p-form.bemhtml.js */
 ﻿block('p-form').replace()(function () {
     var filds = {
         'name': 'ФИО',
@@ -2857,7 +2870,7 @@ block('button').mod('togglable', 'radio').attrs()(function() {
                         content: Object.keys(filds).map(function (fildName) {
                             return {
                                 block: 'input',
-                                mods: { 'has-clear': true },
+                                mods: { 'has-clear': true, theme: 'islands', size: 'm' },
                                 mix: {
                                     block: 'vcard-form',
                                     elem: 'input',
@@ -2874,7 +2887,7 @@ block('button').mod('togglable', 'radio').attrs()(function() {
                         content: Object.keys(filds).map(function (fildName) {
                             return {
                                 block: 'input',
-                                mods: { 'has-clear': true },
+                                mods: { 'has-clear': true, theme: 'islands', size: 'm' },
                                 mix: {
                                     block: 'vcard-form',
                                     elem: 'input',
@@ -2888,7 +2901,7 @@ block('button').mod('togglable', 'radio').attrs()(function() {
                     },
                     {
                         block: 'button',
-                        mods: { type: 'submit' },
+                        mods: { type: 'submit', theme: 'islands', size: 'm' },
                         text: 'Жмак'
                     }
                 ]
@@ -2896,7 +2909,7 @@ block('button').mod('togglable', 'radio').attrs()(function() {
         ]
     };
 });
-/* end: /Users/belyanskii/sites/examples/Vcard/Bem/desktop.blocks/p-form/p-form.bemhtml.js */
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\p-form\p-form.bemhtml.js */
 oninit(function(exports, context) {
     var BEMContext = exports.BEMContext || context.BEMContext;
     // Provides third-party libraries from different modular systems
