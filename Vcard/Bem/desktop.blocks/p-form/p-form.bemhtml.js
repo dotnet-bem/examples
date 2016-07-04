@@ -61,6 +61,7 @@
                     {
                         elem: 'hidden-input',
                         attrs: {
+                            tag: 'input',
                             type: 'hidden',
                             name : 'lang',
                             value : 'ru',
