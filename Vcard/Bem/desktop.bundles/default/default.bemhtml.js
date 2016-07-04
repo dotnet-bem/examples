@@ -1977,9 +1977,6 @@ var api = new BEMHTML({});
 /// ------ BEM-XJST User-code Start -----
 /// -------------------------------------
 api.compile(function(match, once, wrap, block, elem, mode, mod, elemMod, def, tag, attrs, cls, js, bem, mix, content, replace, extend, oninit, xjstOptions, local, applyCtx, applyNext, apply) {
-/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
-﻿block('example').content()('This is an example block');
-/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\example\example.bemhtml.js */
 /* begin: C:\projects\examples\Vcard\Bem\libs\bem-core\common.blocks\page\page.bemhtml.js */
 block('page')(
 
@@ -2471,6 +2468,231 @@ block('card').elem('logo')(
 );
 
 /* end: C:\projects\examples\Vcard\Bem\desktop.blocks\card\__logo\card__logo.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio-group\radio-group.bemhtml.js */
+block('radio-group')(
+    tag()('span'),
+
+    attrs()({ role : 'radiogroup' }),
+
+    js()(true),
+
+    mix()([{ block : 'control-group' }]),
+
+    content()(function() {
+        var mods = this.mods,
+            ctx = this.ctx,
+            isValDef = typeof ctx.val !== 'undefined';
+
+        return (ctx.options || []).map(function(option, i) {
+            return [
+                !!i && !mods.type && { tag : 'br' },
+                {
+                    block : 'radio',
+                    mods : {
+                        type : mods.type,
+                        mode : mods.mode,
+                        theme : mods.theme,
+                        size : mods.size,
+                        checked : isValDef && ctx.val === option.val,
+                        disabled : option.disabled || mods.disabled
+                    },
+                    name : ctx.name,
+                    val : option.val,
+                    text : option.text,
+                    title : option.title,
+                    icon : option.icon
+                }
+            ];
+        });
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio-group\radio-group.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\radio.bemhtml.js */
+block('radio')(
+    tag()('label'),
+    js()(true),
+    content()(function() {
+        var ctx = this.ctx;
+        return [
+            {
+                elem : 'box',
+                content : {
+                    elem : 'control',
+                    checked : this.mods.checked,
+                    disabled : this.mods.disabled,
+                    name : ctx.name,
+                    val : ctx.val
+                }
+            },
+            ctx.text && {
+                elem : 'text',
+                content : ctx.text
+            }
+        ];
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\radio.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__box\radio__box.bemhtml.js */
+block('radio').elem('box').tag()('span');
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__box\radio__box.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__control\radio__control.bemhtml.js */
+block('radio').elem('control')(
+    tag()('input'),
+
+    attrs()(function() {
+        // NOTE: don't remove autocomplete attribute, otherwise js and DOM may be desynced
+        var ctx = this.ctx,
+            attrs = {
+                type : 'radio',
+                autocomplete : 'off',
+                name : ctx.name,
+                value : ctx.val
+            };
+
+        ctx.checked && (attrs.checked = 'checked');
+        ctx.disabled && (attrs.disabled = 'disabled');
+
+        return attrs;
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__control\radio__control.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__text\radio__text.bemhtml.js */
+block('radio').elem('text')(
+    tag()('span'),
+    attrs()(function() {
+        return { role : 'presentation' };
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\radio\__text\radio__text.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\button.bemhtml.js */
+block('button')(
+    def()(function() {
+        var tag = apply('tag'),
+            isRealButton = (tag === 'button') && (!this.mods.type || this.mods.type === 'submit');
+
+        return applyNext({ _isRealButton : isRealButton });
+    }),
+
+    tag()(function() {
+        return this.ctx.tag || 'button';
+    }),
+
+    js()(true),
+
+    // NOTE: mix below is to satisfy interface of `control`
+    mix()({ elem : 'control' }),
+
+    attrs()(
+        // Common attributes
+        function() {
+            var ctx = this.ctx,
+                attrs = {
+                    role : 'button',
+                    tabindex : ctx.tabIndex,
+                    id : ctx.id,
+                    title : ctx.title
+                };
+
+            this.mods.disabled &&
+                !this._isRealButton && (attrs['aria-disabled'] = 'true');
+
+            return attrs;
+        },
+
+        // Attributes for button variant
+        match(function() { return this._isRealButton; })(function() {
+            var ctx = this.ctx,
+                attrs = {
+                    type : this.mods.type || 'button',
+                    name : ctx.name,
+                    value : ctx.val
+                };
+
+            this.mods.disabled && (attrs.disabled = 'disabled');
+
+            return this.extend(applyNext(), attrs);
+        })
+    ),
+
+    content()(
+        function() {
+            var ctx = this.ctx,
+                content = [ctx.icon];
+            // NOTE: wasn't moved to separate template for optimization
+            'text' in ctx && content.push({ elem : 'text', content : ctx.text });
+            return content;
+        },
+        match(function() { return typeof this.ctx.content !== 'undefined'; })(function() {
+            return this.ctx.content;
+        })
+    )
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\button.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_focused\button_focused.bemhtml.js */
+block('button').mod('focused', true).js()(function() {
+    return this.extend(applyNext(), { live : false });
+});
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_focused\button_focused.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\__text\button__text.bemhtml.js */
+block('button').elem('text').tag()('span');
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\__text\button__text.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\input.bemhtml.js */
+block('input')(
+    tag()('span'),
+    js()(true),
+    def()(function() {
+        return applyNext({ _input : this.ctx });
+    }),
+    content()({ elem : 'box', content : { elem : 'control' } })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\input.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__box\input__box.bemhtml.js */
+block('input').elem('box').tag()('span');
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__box\input__box.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__control\input__control.bemhtml.js */
+block('input').elem('control')(
+    tag()('input'),
+
+    attrs()(function() {
+        var input = this._input,
+            attrs = {
+                id : input.id,
+                name : input.name,
+                value : input.val,
+                maxlength : input.maxLength,
+                tabindex : input.tabIndex,
+                placeholder : input.placeholder
+            };
+
+        input.autocomplete === false && (attrs.autocomplete = 'off');
+        this.mods.disabled && (attrs.disabled = 'disabled');
+
+        return attrs;
+    })
+);
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__control\input__control.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\_has-clear\input_has-clear.bemhtml.js */
+block('input').mod('has-clear', true).elem('box')
+    .content()(function() {
+        return [this.ctx.content, { elem : 'clear' }];
+    });
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\_has-clear\input_has-clear.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__clear\input__clear.bemhtml.js */
+block('input').elem('clear').tag()('span');
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\input\__clear\input__clear.bemhtml.js */
 /* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
 ﻿block('p-vcard').replace()(function () {
     var data = {};
@@ -2550,6 +2772,144 @@ block('card').elem('logo')(
     };
 });
 /* end: C:\projects\examples\Vcard\Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_togglable\button_togglable_radio.bemhtml.js */
+block('button').mod('togglable', 'radio').attrs()(function() {
+    return this.extend(applyNext(), { 'aria-pressed' : String(!!this.mods.checked) });
+});
+
+/* end: C:\projects\examples\Vcard\Bem\libs\bem-components\common.blocks\button\_togglable\button_togglable_radio.bemhtml.js */
+/* begin: C:\projects\examples\Vcard\Bem\desktop.blocks\p-form\p-form.bemhtml.js */
+﻿block('p-form').replace()(function () {
+    var filds = {
+        'name': 'ФИО',
+        'position': 'Должность',
+        'address.country': 'Страна',
+        'address.city': 'Город',
+        'address.zip': 'Индекс',
+        'address.street-address': 'Улица',
+        'company.name': 'Кампания',
+        'company.site': 'Сайт',
+        'contact.work': 'Рабочий телефон',
+        'contact.email': 'email',
+        'contact.github': '',
+        'contact.twitter': '',
+        'contact.skype': ''
+    };
+
+    var getName = function (name) {
+        return name.toLowerCase().replace(/\./g, '-');
+    }
+
+    var getPlaceholder = function (placeholder) {
+        placeholder = placeholder
+            .replace(/-/g, ' ')
+            .replace(/\./g, ' ')
+
+        placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1);
+
+        return placeholder;
+    }
+
+/*
+    name: 'Иван Иванов',
+    position: 'Разработчик интерфейсов',
+    address: {
+        country: 'Россия',
+        city: 'Москва',
+        zip: '119021',
+        'street-address': 'ул. Льва Толстого, д. 16'
+    },
+    company: {
+        name: 'Яндекс',
+        site: 'https://yandex.ru'
+    },
+    contact: {
+        work: '+7 (495) 739-70-00',
+        workExt: '0000',
+        cell: '+7 (555) 123-45-66',
+        email: 'ivanivanovich@yandex-team.ru',
+        site: 'https://ivanivanovich.ru',
+        github: 'ivanivanovich',
+        twitter: 'ivanivanovich',
+        skype: 'ivanivanovich'
+    }
+
+    */
+
+    return {
+        block: 'page',
+        title: 'VCardForm',
+        head: [
+            { elem: 'meta', attrs: { name: 'description', content: '' } },
+            { elem: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
+            { elem: 'css', url: '/Bem/desktop.bundles/default/default.css' }
+        ],
+        scripts: [{ elem: 'js', url: '/Bem/desktop.bundles/default/default.js' }],
+        mix: { block: 'p-form' },
+        content: [
+            {
+                block: 'vcard-form',
+                mods: { tab: 'ru' },
+                js: true,
+                tag: 'form',
+                attrs: { action: '/', method: 'post' },
+                content: [
+                    {
+                        block: 'radio-group',
+                        mods: { theme: 'islands', size: 'm' },
+                        mix: { block: 'vcard-form', elem: 'lang' },
+                        name: 'lang',
+                        val: 'ru',
+                        options: [
+                            { val: 'ru', text: 'На родном языке' },
+                            { val: 'en', text: 'На английском' }
+                        ]
+                    },
+                    {
+                        elem: 'ru',
+                        content: Object.keys(filds).map(function (fildName) {
+                            return {
+                                block: 'input',
+                                mods: { 'has-clear': true, theme: 'islands', size: 'm' },
+                                mix: {
+                                    block: 'vcard-form',
+                                    elem: 'input',
+                                    elemMods: { name: getName(fildName) }
+                                },
+                                val: '',
+                                name: fildName,
+                                placeholder: getPlaceholder(filds[fildName] || fildName)
+                            }
+                        })
+                    },
+                    {
+                        elem: 'en',
+                        content: Object.keys(filds).map(function (fildName) {
+                            return {
+                                block: 'input',
+                                mods: { 'has-clear': true, theme: 'islands', size: 'm' },
+                                mix: {
+                                    block: 'vcard-form',
+                                    elem: 'input',
+                                    elemMods: { name: getName(fildName) }
+                                },
+                                val: '',
+                                name: fildName,
+                                placeholder: getPlaceholder(fildName)
+                            }
+                        })
+                    },
+                    {
+                        block: 'button',
+                        mods: { type: 'submit', theme: 'islands', size: 'm' },
+                        text: 'Жмак'
+                    }
+                ]
+            }
+        ]
+    };
+});
+/* end: C:\projects\examples\Vcard\Bem\desktop.blocks\p-form\p-form.bemhtml.js */
 oninit(function(exports, context) {
     var BEMContext = exports.BEMContext || context.BEMContext;
     // Provides third-party libraries from different modular systems

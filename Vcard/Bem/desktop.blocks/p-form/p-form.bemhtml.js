@@ -89,7 +89,7 @@
                         content: Object.keys(filds).map(function (fildName) {
                             return {
                                 block: 'input',
-                                mods: { 'has-clear': true },
+                                mods: { 'has-clear': true, theme: 'islands', size: 'm' },
                                 mix: {
                                     block: 'vcard-form',
                                     elem: 'input',
@@ -106,7 +106,7 @@
                         content: Object.keys(filds).map(function (fildName) {
                             return {
                                 block: 'input',
-                                mods: { 'has-clear': true },
+                                mods: { 'has-clear': true, theme: 'islands', size: 'm' },
                                 mix: {
                                     block: 'vcard-form',
                                     elem: 'input',
@@ -120,7 +120,7 @@
                     },
                     {
                         block: 'button',
-                        mods: { type: 'submit' },
+                        mods: { type: 'submit', theme: 'islands', size: 'm' },
                         text: 'Жмак'
                     }
                 ]
