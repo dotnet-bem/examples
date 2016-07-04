@@ -31,7 +31,7 @@
         }
 
     }, {
-
+        
         live: function () {
             this.liveInitOnBlockInsideEvent('change', 'radio-group', function (e, data) {
                 this
