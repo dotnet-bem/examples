@@ -255,11 +255,4 @@ paket-files/
 Vcard/Bem/libs
 
 Vcard/Bem/.enb/tmp/cache.json
-Vcard/Bem/desktop.bundles/default/default.js
-Vcard/Bem/desktop.bundles/default/default.js
-Vcard/Bem/.enb/tmp/cache.json
-Vcard/Bem/desktop.bundles/default/default.bemhtml.js
-Vcard/Bem/desktop.bundles/default/default.browser.js
-Vcard/Bem/desktop.bundles/default/default.css
-Vcard/Bem/desktop.bundles/default/default.deps.js
-Vcard/Bem/desktop.bundles/default/default.js
+Vcard/Bem/desktop.bundles/default/*.*

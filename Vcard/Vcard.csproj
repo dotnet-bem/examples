@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EdgeJs, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Edge.js.5.9.1\lib\EdgeJs.dll</HintPath>
+      <HintPath>..\packages\Edge.js.5.9.2\lib\net40\EdgeJs.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -81,7 +81,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.Bem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Web.Bem.1.0.0-alpha\lib\net452\System.Web.Bem.dll</HintPath>
+      <HintPath>..\packages\System.Web.Bem.1.0.0-beta1\lib\net452\System.Web.Bem.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
@@ -126,15 +126,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Bem\.enb\make.js" />
-    <Content Include="Bem\desktop.blocks\example\example.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\b-page\b-page.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\b-page\b-page.css" />
+    <Content Include="Bem\desktop.blocks\b-page\b-page.deps.js" />
+    <Content Include="Bem\desktop.blocks\p-form2\p-form2.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\p-form2\p-form2.css" />
+    <Content Include="Bem\desktop.blocks\p-form2\p-form2.deps.js" />
     <Content Include="Bem\desktop.blocks\p-form\p-form.bemhtml.js" />
-    <Content Include="Bem\desktop.blocks\p-form\p-form.css" />
-    <Content Include="Bem\desktop.blocks\p-form\p-form.deps.js" />
     <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.deps.js" />
     <Content Include="Bem\desktop.blocks\vcard-form\vcard-form.css" />
     <Content Include="Bem\desktop.blocks\vcard-form\vcard-form.js" />
     <Content Include="Bem\desktop.bundles\default\default.bemdecl.js" />
+    <Content Include="Bem\levels.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bemhtml.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bh.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.deps.js" />
@@ -863,10 +867,7 @@
     <Content Include="edge\x86\node.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="form.html" />
     <Content Include="Global.asax" />
-    <Content Include="scripts\ai.0.22.9-build00167.js" />
-    <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1110,7 +1111,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <PropertyGroup>
@@ -1144,9 +1144,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\System.Web.Bem.1.0.0-alpha\build\System.Web.Bem.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Web.Bem.1.0.0-alpha\build\System.Web.Bem.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Web.Bem.1.0.0-beta1\build\System.Web.Bem.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Web.Bem.1.0.0-beta1\build\System.Web.Bem.targets'))" />
   </Target>
-  <Import Project="..\packages\System.Web.Bem.1.0.0-alpha\build\System.Web.Bem.targets" Condition="Exists('..\packages\System.Web.Bem.1.0.0-alpha\build\System.Web.Bem.targets')" />
+  <Import Project="..\packages\System.Web.Bem.1.0.0-beta1\build\System.Web.Bem.targets" Condition="Exists('..\packages\System.Web.Bem.1.0.0-beta1\build\System.Web.Bem.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

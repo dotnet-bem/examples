@@ -13,7 +13,12 @@ namespace Vcard.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return new BemhtmlResult { Bemjson = new { block = "p-form" } };
+            return new BemhtmlResult(new
+            {
+                block = "b-page",
+                title = "Виртуальная визитка",
+                content = "test form"
+            });
         }
 
         [HttpPost]
@@ -29,7 +34,7 @@ namespace Vcard.Controllers
         // GET: Vcard
         public ActionResult Vcard(Guid? id)
         {
-            return new BemhtmlResult { Bemjson = new { block = "p-vcard", data = Session[id.GetValueOrDefault().ToString()] } };
+            return new BemhtmlResult (new { block = "p-vcard", data = Session[id.GetValueOrDefault().ToString()] });
         }
     }
 }
