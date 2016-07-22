@@ -1,0 +1,24 @@
+﻿.b-form {
+    max-width: 640px;
+}
+
+.b-form__label {
+    font-size: 18px;
+    line-height: 32px;
+    font-weight: 100;
+    float: left;
+    width: 200px;
+}
+
+.b-form__control {
+    margin-left: 200px;    
+}
+
+.b-form__field {
+    margin-bottom: 32px;
+}
+
+.b-form__actions {
+    margin-top: 55px;
+    text-align: center;
+}

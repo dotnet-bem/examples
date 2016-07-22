@@ -17,7 +17,7 @@ namespace Vcard.Controllers
             {
                 block = "b-page",
                 title = "Виртуальная визитка",
-                content = "test form"
+                content = new { block = "b-form" }
             });
         }
 

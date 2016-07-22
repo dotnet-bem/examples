@@ -97,11 +97,6 @@ block('card')(
                         lang: data.lang
                     },
                     {
-                        elem: 'address',
-                        data: data.address,
-                        lang: data.lang
-                    },
-                    {
                         elem: 'contact',
                         data: data,
                         lang: data.lang
@@ -140,62 +135,6 @@ block('card')(
         itemprop: 'title'
     }),
 
-    elem('address')(
-        attrs()({
-            itemprop: 'address',
-            itemscope: true,
-            itemtype: 'http://data-vocabulary.org/Address'
-        }),
-
-        match(function() { return typeof this.ctx.data !== 'string'; })(
-            match(function() { return this.ctx.data.lang === 'ru'; })
-                .content()([ 'country', 'city', 'zip', 'street-address' ]),
-
-            content()(['city', 'zip', 'country', 'street-address']),
-
-            content()(function() {
-                var ctx = this.ctx;
-                return applyNext().map(function(el, i) {
-                    return [
-                        i !== 0 ? ', ' : '',
-                        {
-                            elem: el,
-                            content: ctx.data[el]
-                        }
-                    ];
-                })
-            })
-        )
-    ),
-
-    elem('country')(
-        tag()('span'),
-        attrs()({
-            itemprop: 'country-name'
-        })
-    ),
-
-    elem('city')(
-        tag()('span'),
-        attrs()({
-            itemprop: 'locality'
-        })
-    ),
-
-    elem('zip')(
-        tag()('span'),
-        attrs()({
-            itemprop: 'postal-code'
-        })
-    ),
-
-    elem('street-address')(
-        tag()('span'),
-        attrs()({
-            itemprop: 'street-address'
-        })
-    ),
-
     elem('contact').content()(function() {
         var content = [];
         var data = this.ctx.data.contact;
@@ -205,14 +144,14 @@ block('card')(
                 elem: 'tel',
                 elemMods: { type: 'work' },
                 content: [
-                    i18n[this.ctx.lang].tel,
+                    i18n['ru'].tel,
                     {
                         elem: 'phone-link',
                         raw: data.work.replace(/\(|\)|\s|\-/g, ''),
                         content: data.work
                     },
                     data.workExt
-                        ? i18n[this.ctx.lang].telExt + data.workExt
+                        ? i18n['ru'].telExt + data.workExt
                         : ''
                 ]
             });
@@ -223,7 +162,7 @@ block('card')(
                 elem: 'tel',
                 elemMods: { type: 'cellular' },
                 content: [
-                    i18n[this.ctx.lang].cell,
+                    i18n['ru'].cell,
                     {
                         elem: 'phone-link',
                         raw: data.cell.replace(/\(|\)|\s|\-/g, ''),

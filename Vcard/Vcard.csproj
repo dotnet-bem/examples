@@ -126,17 +126,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Bem\.enb\make.js" />
+    <Content Include="Bem\desktop.blocks\b-form\b-form.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\b-form\b-form.css" />
+    <Content Include="Bem\desktop.blocks\b-form\b-form.deps.js" />
     <Content Include="Bem\desktop.blocks\b-page\b-page.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\b-page\b-page.css" />
     <Content Include="Bem\desktop.blocks\b-page\b-page.deps.js" />
-    <Content Include="Bem\desktop.blocks\p-form2\p-form2.bemhtml.js" />
-    <Content Include="Bem\desktop.blocks\p-form2\p-form2.css" />
-    <Content Include="Bem\desktop.blocks\p-form2\p-form2.deps.js" />
-    <Content Include="Bem\desktop.blocks\p-form\p-form.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\card\card.bemhtml.js" />
+    <Content Include="Bem\desktop.blocks\card\__logo\card__logo.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.deps.js" />
-    <Content Include="Bem\desktop.blocks\vcard-form\vcard-form.css" />
-    <Content Include="Bem\desktop.blocks\vcard-form\vcard-form.js" />
     <Content Include="Bem\desktop.bundles\default\default.bemdecl.js" />
     <Content Include="Bem\levels.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bemhtml.js" />
@@ -876,7 +875,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Contact.cs" />
@@ -1103,6 +1101,8 @@
     <Content Include="edge\x64\edge_nativeclr.node">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Bem\desktop.blocks\card\card.styl" />
+    <Content Include="Bem\desktop.blocks\card\__logo\card__logo.styl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

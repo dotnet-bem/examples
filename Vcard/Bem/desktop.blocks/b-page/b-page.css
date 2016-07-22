@@ -1,3 +1,10 @@
 ﻿.b-page {
-    font-family: 'Arial', sans-serif;
+    padding: 70px;
+}
+
+.b-page__title {
+    font-size: 50px;
+    line-height: 1.2em;
+    font-weight: 500;
+    margin: 0 0 40px;
 }

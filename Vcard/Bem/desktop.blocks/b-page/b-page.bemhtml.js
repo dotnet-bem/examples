@@ -5,6 +5,7 @@
     replace()(function () {
         return {
             block: 'page',
+            mods: { theme:'islands' },
             title: this.ctx.title,
             head: [
                 { elem: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
