@@ -1,0 +1,1 @@
+﻿block('b-page-title').tag()('h1');

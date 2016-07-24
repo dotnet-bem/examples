@@ -1,5 +1,3 @@
 ﻿exports.blocks = [
-    { name: 'p-vcard' },
-    { name: 'b-page' },
-    { name: 'b-form' }
+    { name: 'p-vcard-form' }
 ];

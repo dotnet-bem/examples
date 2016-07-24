@@ -10,5 +10,6 @@
     { path: 'libs/bem-components/design/desktop.blocks', check: false },
 
     // app blocks
-    'desktop.blocks'
+    'desktop.blocks',
+    'page.blocks'
 ];
