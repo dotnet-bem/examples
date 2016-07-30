@@ -859,6 +859,9 @@
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\__dom\ua__dom.js" />
     <Content Include="Bem\page.blocks\p-vcard-form\p-vcard-form.bemhtml.js" />
     <Content Include="Bem\page.blocks\p-vcard-form\p-vcard-form.deps.js" />
+    <Content Include="Bem\page.blocks\p-vcard-preview\p-vcard-preview.css" />
+    <Content Include="Bem\page.blocks\p-vcard-preview\p-vcard-preview.deps.js" />
+    <Content Include="Bem\page.blocks\p-vcard-preview\p-vcard-preview.bemhtml.js" />
     <Content Include="edge\double_edge.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

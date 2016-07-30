@@ -3,7 +3,6 @@
         { block: 'b-page' }
     ],
     shouldDeps: [
-        { block: 'b-page-title' },
-        { block: 'b-form' }
+        { block: 'b-vcard' }
     ]
 })

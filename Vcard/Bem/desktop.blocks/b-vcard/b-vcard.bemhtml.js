@@ -1,5 +1,5 @@
 ﻿block('b-vcard')(
     content()(function() {
-        return 'moo moo'
+        return 'moo moo';
     })
 );
