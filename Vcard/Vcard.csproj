@@ -129,8 +129,6 @@
     <Content Include="Bem\desktop.blocks\b-form\b-form.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\b-form\b-form.css" />
     <Content Include="Bem\desktop.blocks\b-form\b-form.deps.js" />
-    <Content Include="Bem\desktop.blocks\b-page-title\b-page-title.bemhtml.js" />
-    <Content Include="Bem\desktop.blocks\b-page-title\b-page-title.css" />
     <Content Include="Bem\desktop.blocks\b-page\b-page.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.css" />
     <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.deps.js" />

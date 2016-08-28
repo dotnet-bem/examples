@@ -31,7 +31,7 @@ namespace Vcard.Controllers
         {
             var vcard = Session[id.GetValueOrDefault().ToString()];
 
-            return new BemhtmlResult(new { block = "p-vcard-preview", data = vcard });
+            return new BemhtmlResult(new { block = "p-vcard-preview", vcard });
         }
     }
 }

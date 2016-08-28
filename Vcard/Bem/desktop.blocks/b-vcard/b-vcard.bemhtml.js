@@ -1,5 +1,8 @@
 ﻿block('b-vcard')(
-    content()(function() {
+    content()(function () {
+        var vcard = this.ctx.vcard || {},
+            contact = vcard.contact || {};
+
         return [
             {
                 elem: 'logo'
@@ -10,49 +13,49 @@
                     {
                         elem: 'title',
                         content: [
-                            { elem: 'name', content: 'Ivanov Ivan' },
-                            { elem: 'position', content: 'Frontend developer' }
+                            vcard.name && { elem: 'name', content: vcard.name },
+                            vcard.position && { elem: 'position', content: vcard.position }
                         ]   
                     },
                     {
                         elem: 'contact',
                         content: [
-                            {
+                            contact.phone && {
                                 elem: 'line',
                                 label: 'Тел.',
-                                content: '+7 (495) 126-12-03'
+                                content: contact.phone
                             },
-                            {
+                            contact.cell && {
                                 elem: 'line',
                                 label: 'Моб.',
-                                content: '+7 962 126-96-72'
+                                content: contact.cell
                             },
-                            {
+                            (contact.phone || contact.cell) && {
                                 elem: 'gap'
                             },
-                            {
+                            contact.email && {
                                 elem: 'line',
-                                url: 'mailto:dima117a@yandex-team.ru',
-                                content: 'dima117a@yandex-team.ru'
+                                url: 'mailto:' + contact.email,
+                                content: contact.email
                             },
-                            {
+                            contact.email && {
                                 elem: 'gap'
                             },
-                            {
+                            contact.skype && {
                                 elem: 'line',
                                 label: 'Skype',
-                                url: 'skype:dima117a?chat',
-                                content: 'dima117a'
+                                url: 'skype:' + contact.skype + '?chat',
+                                content: contact.skype
                             },
-                            {
+                            contact.github && {
                                 elem: 'line',
-                                url: 'https://github.com/dima117',
-                                content: 'github.com/dima117'
+                                url: 'https://github.com/' + contact.github,
+                                content: 'github.com/' + contact.github
                             },
-                            {
+                            contact.twitter && {
                                 elem: 'line',
-                                url: 'https://twitter.com/dima117',
-                                content: 'twitter.com/dima117'
+                                url: 'https://twitter.com/' + contact.twitter,
+                                content: 'twitter.com/' + contact.twitter
                             }
                         ]
                     }

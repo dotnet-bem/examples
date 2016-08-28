@@ -4,7 +4,7 @@
         title: 'Просмотр',
         mix: { block: 'p-vcard-preview' },
         content: [
-            { block: 'b-vcard' }
+            { block: 'b-vcard', vcard: this.ctx.vcard }
         ]
     }
 });
