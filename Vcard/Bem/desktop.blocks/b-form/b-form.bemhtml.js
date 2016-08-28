@@ -15,14 +15,8 @@
             {
                 elem: 'group',
                 content: [
-                    { elem: 'field', name: 'company.name', label: 'Компания' },
-                    { elem: 'field', name: 'company.site', label: 'Сайт' }
-                ]
-            },
-            {
-                elem: 'group',
-                content: [
-                    { elem: 'field', name: 'contact.work', label: 'Рабочий телефон' },
+                    { elem: 'field', name: 'contact.phone', label: 'Рабочий телефон' },
+                    { elem: 'field', name: 'contact.cell', label: 'Мобильный телефон' },
                     { elem: 'field', name: 'contact.email', label: 'Email' },
                     { elem: 'field', name: 'contact.github', label: 'Github' },
                     { elem: 'field', name: 'contact.twitter', label: 'Twitter' },

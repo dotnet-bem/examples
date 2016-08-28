@@ -132,13 +132,12 @@
     <Content Include="Bem\desktop.blocks\b-page-title\b-page-title.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\b-page-title\b-page-title.css" />
     <Content Include="Bem\desktop.blocks\b-page\b-page.bemhtml.js" />
-    <Content Include="Bem\desktop.blocks\b-page\b-page.css" />
+    <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.css" />
+    <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.deps.js" />
+    <Content Include="Bem\desktop.blocks\link\_theme\link_theme_islands.css" />
+    <Content Include="Bem\page.blocks\p-vcard-form\p-vcard-form.css" />
     <Content Include="Bem\desktop.blocks\b-page\b-page.deps.js" />
     <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.bemhtml.js" />
-    <Content Include="Bem\desktop.blocks\card\card.bemhtml.js" />
-    <Content Include="Bem\desktop.blocks\card\__logo\card__logo.bemhtml.js" />
-    <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.bemhtml.js" />
-    <Content Include="Bem\desktop.blocks\p-vcard\p-vcard.deps.js" />
     <Content Include="Bem\desktop.bundles\default\default.bemdecl.js" />
     <Content Include="Bem\levels.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bemhtml.js" />
@@ -884,7 +883,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Card.cs" />
-    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1109,8 +1107,7 @@
     <Content Include="edge\x64\edge_nativeclr.node">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Bem\desktop.blocks\card\card.styl" />
-    <Content Include="Bem\desktop.blocks\card\__logo\card__logo.styl" />
+    <Content Include="Bem\desktop.blocks\link\link.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
