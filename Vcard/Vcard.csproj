@@ -133,6 +133,16 @@
     <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.css" />
     <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.deps.js" />
     <Content Include="Bem\desktop.blocks\link\_theme\link_theme_islands.css" />
+    <Content Include="Bem\desktop.bundles\default\default.bemhtml.bemdecl.js" />
+    <Content Include="Bem\desktop.bundles\default\default.bemhtml.deps.js" />
+    <Content Include="Bem\desktop.bundles\default\default.bemhtml.js" />
+    <Content Include="Bem\desktop.bundles\default\default.browser.bemhtml.js" />
+    <Content Include="Bem\desktop.bundles\default\default.browser.js" />
+    <Content Include="Bem\desktop.bundles\default\default.css" />
+    <Content Include="Bem\desktop.bundles\default\default.deps.js" />
+    <Content Include="Bem\desktop.bundles\default\default.js" />
+    <Content Include="Bem\desktop.bundles\default\default.min.css" />
+    <Content Include="Bem\desktop.bundles\default\default.min.js" />
     <Content Include="Bem\page.blocks\p-vcard-form\p-vcard-form.css" />
     <Content Include="Bem\desktop.blocks\b-page\b-page.deps.js" />
     <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.bemhtml.js" />
