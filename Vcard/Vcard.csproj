@@ -859,6 +859,7 @@
     <Content Include="Bem\page.blocks\p-vcard-preview\p-vcard-preview.css" />
     <Content Include="Bem\page.blocks\p-vcard-preview\p-vcard-preview.deps.js" />
     <Content Include="Bem\page.blocks\p-vcard-preview\p-vcard-preview.bemhtml.js" />
+    <None Include="Bem\page.blocks\p-vcard-preview\p-vcard-preview.md" />
     <Content Include="edge\double_edge.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1109,6 +1110,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Home\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bem\desktop.blocks\b-form\b-form.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bem\desktop.blocks\b-page\b-page.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bem\desktop.blocks\b-vcard\b-vcard.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bem\page.blocks\p-vcard-form\p-vcard-form.md" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
