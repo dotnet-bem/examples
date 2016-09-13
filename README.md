@@ -1,5 +1,5 @@
 # System.Web.Bem examples
 
-Здесь находятся демо-проекты, иллюстрирующие решение типовых задач с помощью [БЭМ-инструментов на платформе ASP.NET](https://github.com/dotnet-bem/system-web-bem).
+These are demo projects that demonstrate how to solve typical tasks using [BEM tools on the ASP.NET platform](https://github.com/dotnet-bem/system-web-bem).
 
-На текущий момент демо проект всего один - [виртуальная Яндекс-визитка](Vcard).
+We only have one demo project right now – the [Yandex vCard] (https://github.com/dotnet-bem/examples/tree/master/Vcard).
