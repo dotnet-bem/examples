@@ -1,37 +1,37 @@
-# Виртуальная визитка
+# vCard
 
-Виртуальная визитка - это демо-проект на ASP.NET MVC, иллюстрирующий решение типовых задач с помощью БЭМ-инструментов.
+The virtual business card (vCard) is a demo project on ASP.NET MVC that demonstrates how to use BEM tools for solving ordinary tasks.
 
 [LIVE DEMO](http://bemtest.ecm7.ru/)
 
-## Логика работы
+## How it works
 
-Пользователь видит форму данных о человеке (ФИО, должность, контакты). Он заполняет форму и данные сохраняются на сервере. После этого открывается другая страница, на которой находится виртуальная Яндекс-визитка с информацией, которую пользователь ввел на первом шаге.
+The user sees a form for personal data (first and last name, job title, and contact information). When the user fills in the form and submits it, the information is stored on the server. Then another page opens that shows a Yandex vCard with the information that the user entered in the first step.
 
 ## Backend
-Вся реализация серверной логики находится в одном контроллере ([HomeController.cs](Controllers/HomeController.cs)).
+All of the server logic is implemented in a single controller ([HomeController.cs](Controllers/HomeController.cs)).
 
-Методы контроллера:
-- `Index` (GET) - отображает форму;
-- `Index` (POST) - принимает заполненную форму и сохраняет данные в `Session`;
-- `Vcard` (GET) - достает из сессии по ключу сохраненные данные и отображает виртуальную визитку.
+Controller methods:
+- `Index` (GET) – Displays the form.
+- `Index` (POST) – Accepts the submitted form and stores the data in `Session`.
+- `Vcard` (GET) – Retrieves the session data by key and displays the vCard.
 
-Модель метода `Index` (POST) заполняется данными из формы автоматически, с помощью стандартных [ASP.NET MVC Binders](https://docs.asp.net/en/latest/mvc/models/model-binding.html) (названия полей формы соответствуют названиям полей модели).
+The model of the `Index` method (POST) is automatically filled in with the form data using standard [ASP.NET MVC Binders](https://docs.asp.net/en/latest/mvc/models/model-binding.html) (the names of the form fields match the names of the model fields).
 
 ## Frontend
 
-Интерфейс приложения реализован по методологии [БЭМ](https://ru.bem.info). БЭМ-инфраструктура для проекта: [System.Web.Bem](https://github.com/dotnet-bem/system-web-bem).
+The application interface is implemented using the [BEM](https://en.bem.info) methodology. BEM infrastructure for the project: [System.Web.Bem](https://github.com/dotnet-bem/system-web-bem).
 
-В проекте используются библиотеки блоков [bem-core](https://github.com/bem/bem-core) и [bem-components](https://github.com/bem/bem-components) (подключены в проект из NuGet и добавлены в файл [levels.js](Bem/levels.js) как уровни переопределения).
+The project uses the block libraries [bem-core](https://github.com/bem/bem-core) and [bem-components](https://github.com/bem/bem-components) (they are integrated into the project from NuGet and added to the [levels.js](Bem/levels.js) file as redefinition levels).
 
-Блоки приложения:
-- [b-page](Bem/desktop.blocks/b-page) - общая часть для всех страниц приложения;
-- [b-form](Bem/desktop.blocks/b-form) - форма ввода информации о человеке;
-- [b-vcard](Bem/desktop.blocks/b-vcard) - виртуальная визитка;
-- [link](Bem/desktop.blocks/link) - доопределение блока `link` с предыдущих уровней переопределения (заменяем цвет ссылки).
+Application blocks:
+- [b-page](Bem/desktop.blocks/b-page) – Common part for all application pages.
+- [b-form](Bem/desktop.blocks/b-form) – The form for entering personal data.
+- [b-vcard](Bem/desktop.blocks/b-vcard) – The vCard.
+- [link](Bem/desktop.blocks/link) – Extension of the `link` block from the previous redefinition levels (changes the link color).
 
-Общая часть страниц описана в блоке [b-page](Bem/desktop.blocks/b-page). Контент каждой страницы описан отдельным блоком. На [отдельном уровне переопределения](Bem/page.blocks) описаны страничные блоки, которые содержат блок `b-page` и задают нужный контент для него.
+The common part of the pages is defined in the [b-page](Bem/desktop.blocks/b-page) block. The content of each page is defined by a separate block. A [separate redefinition level](Bem/page.blocks) describes the page blocks that contain the `b-page` block and sets the necessary content for it.
 
-Страничные блоки:
-- [p-vcard-form](Bem/page.blocks/p-vcard-form) - форма ввода информации о человеке;
-- [p-vcard-preview](Bem/page.blocks/p-vcard-preview) - виртуальная визитка.
+Page blocks:
+- [p-vcard-form](Bem/page.blocks/p-vcard-form) – The form for entering personal data.
+- [p-vcard-preview](Bem/page.blocks/p-vcard-preview) – The vCard.
