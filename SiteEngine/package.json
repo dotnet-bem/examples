@@ -1,0 +1,20 @@
+{
+  "name": "SiteEngine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "enb": "^1.4.1",
+    "enb-bem-techs": "^2.2.1",
+    "enb-bemxjst": "^8.2.0",
+    "enb-borschik": "^2.4.0",
+    "enb-js": "^1.1.0",
+    "enb-stylus": "^2.4.0"
+  }
+}
