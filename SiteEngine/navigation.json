@@ -1,0 +1,22 @@
+﻿[
+  {
+    "url": "/",
+    "content": "Home"
+  },
+  {
+    "url": "/info/getting-started.md",
+    "content": "Getting Started"
+  },
+  {
+    "url": "/info/details.md",
+    "content": "Details"
+  },
+  {
+    "url": "/forum",
+    "content": "Forum"
+  },
+  {
+    "url": "/info/contacts.md",
+    "content": "Contacts"
+  }
+]

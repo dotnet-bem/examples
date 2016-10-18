@@ -12,6 +12,11 @@ namespace SiteEngine
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             
             routes.MapRoute(
+               name: "home",
+               url: "",
+               defaults: new { controller = "Home", action = "Index" }
+           );
+            routes.MapRoute(
                name: "info",
                url: "info/{*path}",
                defaults: new { controller = "Info", action = "Index", path = UrlParameter.Optional }
@@ -28,12 +33,6 @@ namespace SiteEngine
                url: "forum/{id}",
                defaults: new { controller = "Forum", action = "Topic" }
            );
-
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
         }
     }
 }
