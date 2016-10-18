@@ -10,10 +10,19 @@
                 content: 'Lorem ipsum dolor sit amet, mea nisl antiopam id, explicari maiestatis has no.'
             },
             {
-                block: 'link',
-                mods: { theme: 'islands', size: 'm' },
-                url: this.ctx.githubUrl,
-                content: 'login'
+                elem: 'test-controls',
+                content: [
+                    {
+                        block: 'link',
+                        mods: { theme: 'islands', size: 'm' },
+                        url: this.ctx.githubUrl,
+                        content: 'login'
+                    },
+                    {
+                        block: 'input',
+                        mods: { theme: 'islands', size: 'm' }
+                    }
+                ]
             }
         ];
     }),

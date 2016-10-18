@@ -1,3 +1,3 @@
-﻿exports.blocks = [
-    { name: 'example' }
+﻿exports.deps = [
+    { block: 'example' }
 ];
