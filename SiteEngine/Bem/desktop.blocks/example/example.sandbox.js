@@ -10,9 +10,9 @@ module.exports = {
     init: function(container) {
         var bemjson = this.bemjson;
 
-        modules.require(['BEMHTML', 'i-bem__dom', 'jquery'], function(bemhtml, bemdom, $){
+        modules.require(['BEMHTML', 'i-bem__dom_init', 'jquery'], function(bemhtml, init, $){
             var domNode = $(bemhtml.apply(bemjson)).appendTo('#sandbox-container');
-            bemdom.init(domNode);
+            init(domNode);
         })
     }
 };
