@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "direct-dev": "0.0.3",
+    "direct-dev-server": "^1.6.0",
     "enb": "^1.4.1",
     "enb-bem-techs": "^2.2.1",
     "enb-bemxjst": "^8.2.0",

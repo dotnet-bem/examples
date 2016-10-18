@@ -1,22 +1,63 @@
 ﻿var levels = require('../levels'),
+    testLevels = [{ path: '../node_modules/direct-dev/blocks', check: false }].concat(levels),
+
     enbBemTechs = require('enb-bem-techs'),
+    devTechs = require('direct-dev'),
     techs = {
+        fileCopy: require('enb/techs/file-copy'),
         fileProvider: require('enb/techs/file-provider'),
         fileMerge: require('enb/techs/file-merge'),
         stylus: require('enb-stylus/techs/stylus'),
         browserJs: require('enb-js/techs/browser-js'),
         bemhtml: require('enb-bemxjst/techs/bemhtml'),
+        bemjsonToHtml: require('enb-bemxjst/techs/bemjson-to-html'),
         borschik: require('enb-borschik/techs/borschik')
     };
 
 module.exports = function(config) {
     var isProd = process.env.YENV === 'production';
 
-    config.nodes('*.bundles/*', function(nodeConfig) {
+    // продуктовые бандлы
+    config.nodes('desktop.bundles/*', function(nodeConfig){
         nodeConfig.addTechs([
             // essential
-            [techs.fileProvider, { target: '?.bemdecl.js' }],
             [enbBemTechs.levels, { levels: levels }],
+
+            // client bemdecl
+            [enbBemTechs.depsByTechToBemdecl, {
+                target: '?.bemhtml.bemdecl.js',
+                sourceTech: 'js',
+                destTech: 'bemhtml'
+            }]
+        ]);
+
+        nodeConfig.addTargets(['?.bemhtml.js', '?.min.css', '?.min.js']);
+    });
+
+    // тестовые бандлы
+    config.nodes('test.bundles/*', function(nodeConfig){
+        nodeConfig.addTechs([
+            // essential
+            [enbBemTechs.levels, { levels: testLevels }],
+
+            // sandbox
+            [devTechs.techs.devPageBemjson, { target: '?.sandbox.bemjson.js', type: 'sandbox', js: '?.min.js', devJs: '?.sandbox.js', css: '?.min.css' }],
+            [techs.bemjsonToHtml, { target: '?.sandbox.html',  bemjsonFile: '?.sandbox.bemjson.js' }],
+            [devTechs.techs.sandbox],
+
+            // clinent bemdecl
+            [techs.fileCopy, { target: '?.bemhtml.bemdecl.js', source: '?.bemdecl.js' }]
+        ]);
+
+        nodeConfig.addTargets(['?.bemhtml.js', '?.min.css', '?.min.js', '?.sandbox.html', '?.sandbox.js']);
+    });
+
+    // общие настройки
+    config.nodes('*.bundles/*', function(nodeConfig) {
+        nodeConfig.addTechs([
+
+            // essential
+            [techs.fileProvider, { target: '?.bemdecl.js' }],
             [enbBemTechs.files],
             [enbBemTechs.deps],
 
@@ -33,11 +74,6 @@ module.exports = function(config) {
             [techs.bemhtml, { sourceSuffixes: ['bemhtml', 'bemhtml.js'] }],
 
             // client bemhtml
-            [enbBemTechs.depsByTechToBemdecl, {
-                target: '?.bemhtml.bemdecl.js',
-                sourceTech: 'js',
-                destTech: 'bemhtml'
-            }],
             [enbBemTechs.deps, {
                 target: '?.bemhtml.deps.js',
                 bemdeclFile: '?.bemhtml.bemdecl.js'
@@ -63,9 +99,6 @@ module.exports = function(config) {
             // optimization
             [techs.borschik, { source: '?.js', target: '?.min.js', minify: isProd }],
             [techs.borschik, { source: '?.css', target: '?.min.css', minify: isProd }]
-
         ]);
-
-        nodeConfig.addTargets(['?.bemhtml.js', '?.min.css', '?.min.js']);
     });
 };
