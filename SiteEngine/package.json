@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sandbox": "node node_modules/direct-dev-server -b"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "direct-dev": "0.0.3",
-    "direct-dev-server": "^1.6.0",
+    "direct-dev-server": "1.6.1",
     "enb": "^1.4.1",
     "enb-bem-techs": "^2.2.1",
     "enb-bemxjst": "^8.2.0",
