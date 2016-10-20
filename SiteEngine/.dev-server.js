@@ -1,6 +1,7 @@
 module.exports = {
+    baseDir: 'Bem',
     baseUrl: 'dev',
-    bundles: 'Bem/test.bundles',
+    bundles: 'test.bundles',
     levels: ['desktop.blocks'],
     enbArgs: ['--dir', 'Bem'],
     defaultTarget: '?.sandbox.html',
