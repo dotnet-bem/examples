@@ -1,3 +1,4 @@
 ﻿exports.deps = [
-    { block: 'example' }
+    { block: 'example' },
+	{ block: 'md' }
 ];
