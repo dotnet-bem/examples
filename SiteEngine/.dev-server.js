@@ -3,7 +3,6 @@ module.exports = {
     baseUrl: 'dev',
     bundles: 'test.bundles',
     levels: ['desktop.blocks'],
-    enbArgs: ['--dir', 'Bem'],
     defaultTarget: '?.sandbox.html',
     targets: {
         '?.min.js': ['js', 'bemhtml.js'],
