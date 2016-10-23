@@ -57,8 +57,8 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Octokit, Version=0.23.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Octokit.0.23.0\lib\net45\Octokit.dll</HintPath>
@@ -832,6 +832,7 @@
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\ua.js" />
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\__dom\ua__dom.deps.js" />
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\__dom\ua__dom.js" />
+    <Content Include="Content\images\pony.jpg" />
     <Content Include="edge\double_edge.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
