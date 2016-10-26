@@ -43,6 +43,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonMark.NET.0.14.0\lib\net45\CommonMark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EdgeJs, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Edge.js.5.9.2\lib\net40\EdgeJs.dll</HintPath>
       <Private>True</Private>
@@ -53,8 +57,8 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Octokit, Version=0.23.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Octokit.0.23.0\lib\net45\Octokit.dll</HintPath>
@@ -109,6 +113,7 @@
     <Content Include="Bem\.enb\make.js" />
     <Content Include="Bem\desktop.blocks\example\example.bemhtml.js" />
     <Content Include="Bem\desktop.blocks\example\example.deps.js" />
+    <Content Include="Bem\desktop.blocks\md\md.bemhtml.js" />
     <Content Include="Bem\desktop.bundles\default\default.bemdecl.js" />
     <Content Include="Bem\levels.js" />
     <Content Include="Bem\libs\bem-components\common.blocks\attach\attach.bemhtml.js" />
@@ -827,6 +832,7 @@
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\ua.js" />
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\__dom\ua__dom.deps.js" />
     <Content Include="Bem\libs\bem-core\touch.blocks\ua\__dom\ua__dom.js" />
+    <Content Include="Content\images\pony.jpg" />
     <Content Include="edge\double_edge.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1075,7 +1081,15 @@
     <Content Include="Bem\libs\bem-components\CHANGELOG.md" />
     <Content Include="navigation.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Content\getting-started.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\details.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\contacts.md" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
