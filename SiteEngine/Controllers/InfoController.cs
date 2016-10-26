@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SiteEngine.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace SiteEngine.Controllers
         // GET: Info
         public ActionResult Index(string path)
         {
-            var serverPath = Server.MapPath("~/Content/" + path);
+            var fullPath = Path.Combine(AppSettings.ContentDir, path);
+            var serverPath = Server.MapPath(fullPath);
             var ext = Path.GetExtension(serverPath);
 
             if (ext == ".md")
