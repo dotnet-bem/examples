@@ -256,3 +256,12 @@ Vcard/Bem/libs
 
 Vcard/Bem/.enb/tmp/cache.json
 Vcard/Bem/desktop.bundles/default/*.*
+libs
+/Todo/Bem/.enb/tmp
+/Todo/Bem/desktop.bundles/default/default.min.js
+/Todo/Bem/desktop.bundles/default/default.bemhtml.js
+/Todo/Bem/desktop.bundles/default/default.browser.js
+/Todo/Bem/desktop.bundles/default/default.css
+/Todo/Bem/desktop.bundles/default/default.deps.js
+/Todo/Bem/desktop.bundles/default/default.js
+/Todo/Bem/desktop.bundles/default/default.min.css

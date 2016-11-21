@@ -1,0 +1,31 @@
+.todo-item {
+    padding-bottom: 10px;
+    transition: opacity 200ms ease;
+    user-select: none;
+}
+
+.todo-item_done {
+    opacity: .5;
+}
+
+.todo-item__trigger {
+    display: inline-block;
+    width: 165px;
+    margin-right: 10px;
+}
+
+.todo-item_done .todo-item__trigger {
+    text-decoration: line-through;
+}
+
+.todo-item__delete {
+    visibility: hidden;
+}
+
+.todo-item_hovered .todo-item__delete {
+    visibility: visible;
+}
+
+.todo-item_hovered.todo-item_done {
+    opacity: 1;
+}

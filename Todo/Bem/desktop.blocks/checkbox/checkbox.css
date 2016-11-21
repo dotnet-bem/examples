@@ -1,0 +1,9 @@
+.checkbox__text {
+    display: inline-block;
+    width: 140px;
+    vertical-align: top;
+}
+
+.checkbox__box {
+    display: inline-block;
+}
